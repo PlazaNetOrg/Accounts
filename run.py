@@ -5,4 +5,4 @@ app = create_app()
 migrate = Migrate(app, db)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=7592) # 7592 = PLZA
