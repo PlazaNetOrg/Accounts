@@ -2,19 +2,49 @@
 <html>
 <head>
   <title>My Profile</title>
+  <link rel="stylesheet" href="/static/style.css">
   <style>
-    body { font-family: sans-serif; background: #f0f2f5; padding: 50px; }
-    .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-    h2 { margin-top: 0; }
-    a { text-decoration: none; color: #007bff; }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.9em;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+      min-width: 60px;
+    }
+
+    .online {
+      background-color: lightgreen;
+    }
+
+    .offline {
+      background-color: lightslategray;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Welcome, {{ user.username }}!</h2>
-    <img class="pal" src="/api/pal/{{ user.username }}.png" alt="Pal">
-    <p>Created at: {{ user.created_at }}</p>
-    <p><a href="/logout">Logout</a></p>
+    <img class="pal" src="/api/pal/{{ user.username }}.svg" width="128" alt="Pal">
+    <p><a href="/pal_creator">Open Pal Creator</a></p>
+    {% if PLAZANET_ENABLE|lower == 'true' %}
+      <p><a href="https://{{ PLAZANET_DOMAIN }}">Go to {{ APP_NAME }}</a></p>
+    {% endif %}
+    <p><a href="/logout" style="color: lightcoral">Logout</a></p>
+    
+    <hr>
+      <h3>Friends</h3>
+      <h4>Add a friend:</h4>
+      <input type="text" placeholder="username">
+      <button type="submit">Add Friend</button>
+      <hr>
+      <!-- Example -->
+      <p><img class="pal" src="/api/pal/{{ user.username }}.svg" width="16" alt="{{ user.username }}'s Pal">
+      {{ user.username }} <span class="pill online">Online</span></p>
+      <p><img class="pal" src="/api/pal/{{ user.username }}.svg" width="16" alt="{{ user.username }}'s Pal">
+      {{ user.username }} <span class="pill offline">Offline</span></p>
   </div>
 </body>
 </html>

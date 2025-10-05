@@ -102,12 +102,9 @@ def save_pal():
     db.session.commit()
     return jsonify({"success": True})
 
-@bp.route('/pal/<username>.png')
+@bp.route('/pal/<username>.svg')
 def pal_image(username):
     user = User.query.filter_by(username=username).first_or_404()
     parts_dir = current_app.config.get('PAL_PARTS_DIR')
-    img = compose_pal(user.pal_json, parts_dir)
-    buf = io.BytesIO()
-    img.save(buf, format='PNG')
-    buf.seek(0)
-    return send_file(buf, mimetype='image/png')
+    svg = compose_pal(user.pal_json, parts_dir)
+    return current_app.response_class(svg, mimetype='image/svg+xml')

@@ -1,31 +1,42 @@
-from PIL import Image
 import os
 import json
+import re
 
-def compose_pal(pal_json, parts_dir, size=(256, 256)):
+
+def compose_pal(pal_json, parts_dir, size=(300, 300)):
     if isinstance(pal_json, str):
-        try:
-            pal = json.loads(pal_json)
-        except Exception:
-            pal = {}
-    else:
-        pal = pal_json or {}
-
-    background_color = tuple(pal.get("base", [255, 255, 255]))
-
-    base = Image.new('RGB', size, background_color)
-
-    layer_order = ['face', 'hair', 'eyes', 'mouth', 'accessory']
-    for layer in layer_order:
-        choice = pal.get(layer)
-        if not choice:
-            continue
-        path = os.path.join(parts_dir, layer, f"{choice}.png")
-        if os.path.exists(path):
-            try:
-                img = Image.open(path).convert('RGBA')
-                img = img.resize(size, Image.NEAREST)
-                base.paste(img, (0, 0), img)
-            except Exception:
-                continue
-    return base
+        try: pal = json.loads(pal_json)
+        except: pal = {}
+    else: pal = pal_json or {}
+    w, h = size
+    bg = pal.get("base", [255,255,255])
+    bg_hex = '#%02x%02x%02x' % tuple(bg)
+    svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">']
+    svg.append(f'<circle cx="{w//2}" cy="{h//2}" r="{min(w,h)//2}" fill="{bg_hex}"/>')
+    layers = ['head', 'hair', 'eyes', 'nose', 'mouth', 'accessory']
+    from flask import current_app
+    static = current_app.static_folder
+    parts_dir = os.path.join(static, os.path.relpath(parts_dir, 'static'))
+    for layer in layers:
+        part = pal.get(layer)
+        if not part or not part[0]: continue
+        fn = part[0]
+        color = part[1] if len(part)>1 and isinstance(part[1], list) else None
+        path = os.path.join(parts_dir, layer, f"{fn}.svg")
+        if not os.path.exists(path): continue
+        s = open(path, encoding='utf-8').read()
+        s = re.sub(r'<\?xml[^>]*>\s*', '', s, flags=re.I)
+        s = re.sub(r'<svg[^>]*>', '', s, count=1, flags=re.I)
+        s = re.sub(r'</svg>', '', s, flags=re.I)
+        if color:
+            hex_color = '#%02x%02x%02x' % tuple(color)
+            s = re.sub(r'(fill|stroke)=("|\')#[0-9a-fA-F]{3,6}("|\')', lambda m: f'{m.group(1)}="{hex_color}"', s, flags=re.I)
+            def style_color(m):
+                style = m.group(0)
+                style = re.sub(r'(fill\s*:\s*)#[0-9a-fA-F]{3,6}', r'\1'+hex_color, style, flags=re.I)
+                style = re.sub(r'(stroke\s*:\s*)#[0-9a-fA-F]{3,6}', r'\1'+hex_color, style, flags=re.I)
+                return style
+            s = re.sub(r'style=("[^"]*"|\'[^"]*\')', style_color, s, flags=re.I)
+        svg.append(f'<g transform="translate({w*0.125},{h*0.125}) scale(0.75)">{s}</g>')
+    svg.append('</svg>')
+    return '\n'.join(svg)

@@ -42,7 +42,13 @@ def create_app():
     @jwt_required()
     def pal_creator():
         pal_parts = get_pal_parts(app)
-        return render_template("pal_creator.html", pal_parts=pal_parts)
+        # Load current pal if exists
+        username = get_jwt_identity()
+        user = User.query.filter_by(username=username).first()
+        pal_json = None
+        if user and user.pal_json:
+            pal_json = user.pal_json
+        return render_template("pal_creator.html", pal_parts=pal_parts, pal_json=pal_json)
 
     @app.route("/me")
     @jwt_required()
@@ -51,10 +57,26 @@ def create_app():
         user = User.query.filter_by(username=username).first()
         if not user:
             return redirect(url_for("login_page"))
-        return render_template("me.html", user=user)
+        return render_template(
+            "me.html",
+            user=user,
+            PLAZANET_ENABLE=app.config.get("PLAZANET_ENABLE"),
+            APP_NAME=app.config.get("APP_NAME"),
+            PLAZANET_DOMAIN=app.config.get("PLAZANET_DOMAIN")
+        )
 
     @app.errorhandler(401)
     def handle_unauthorized(e):
+        from flask import request
+        if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+            return jsonify({'msg': 'unauthorized'}), 401
+        return redirect(url_for("login_page"))
+
+    @app.errorhandler(422)
+    def handle_unprocessable_entity(e):
+        from flask import request
+        if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
+            return jsonify({'msg': 'token error'}), 422
         return redirect(url_for("login_page"))
 
     return app

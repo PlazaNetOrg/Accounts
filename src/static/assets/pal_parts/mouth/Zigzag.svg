@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="300"
+   height="300"
+   viewBox="0 0 300 300"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="g6"
+     transform="matrix(0.61393863,0,0,0.61393863,57.308166,84.884672)">
+    <rect
+       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.50625;stroke-dasharray:none"
+       id="rect1"
+       width="5"
+       height="35"
+       x="-271.11115"
+       y="-59.836952"
+       transform="rotate(-135)" />
+    <rect
+       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.52925;stroke-dasharray:none"
+       id="rect2"
+       width="5.0763388"
+       height="35.534374"
+       x="-64.190323"
+       y="-272.16785"
+       transform="matrix(0.718346,-0.69568601,-0.718346,-0.69568601,0,0)" />
+    <rect
+       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.51927;stroke-dasharray:none"
+       id="rect3"
+       width="5.0432053"
+       height="35.302437"
+       x="-241.18213"
+       y="-92.829643"
+       transform="matrix(-0.71356068,-0.70059344,0.71356068,-0.70059344,0,0)" />
+    <rect
+       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.54292;stroke-dasharray:none"
+       id="rect4"
+       width="5.1217079"
+       height="35.851955"
+       x="-96.744194"
+       y="-242.82747"
+       transform="matrix(0.7246896,-0.68907546,-0.7246896,-0.68907546,0,0)" />
+    <rect
+       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.50325;stroke-dasharray:none"
+       id="rect5"
+       width="4.9900465"
+       height="34.930328"
+       x="-301.47165"
+       y="-28.770468"
+       transform="matrix(-0.70558533,-0.70862496,0.70558533,-0.70862496,0,0)" />
+    <rect
+       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.5261;stroke-dasharray:none"
+       id="rect6"
+       width="5.0658846"
+       height="35.461193"
+       x="-33.596302"
+       y="-302.02121"
+       transform="matrix(0.71684974,-0.69722769,-0.71684974,-0.69722769,0,0)" />
+  </g>
+</svg>
