@@ -4,3 +4,4 @@ flask_migrate
 flask_jwt_extended
 python-dotenv
 pillow
+passlib

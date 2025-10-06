@@ -26,7 +26,7 @@
         });
         const data = await res.json();
         if (res.ok) {
-          window.location.href = '/pal_creator';
+          window.location.href = '/login';
         } else {
           document.querySelector('.error').textContent = data.msg || 'Registration failed';
         }
