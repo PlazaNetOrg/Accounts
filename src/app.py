@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, make_response
 from .config import Config
 from .models import db, User
 from .auth import bp as auth_bp
@@ -37,6 +37,12 @@ def create_app():
     @app.route("/register", methods=["GET"])
     def register_page():
         return render_template("register.html")
+    
+    @app.route("/logout", methods=["GET"])
+    def logout_route():
+        resp = make_response(redirect("/login"))
+        resp.set_cookie(app.config["JWT_ACCESS_COOKIE_NAME"], "", expires=0)
+        return resp
 
     @app.route("/pal_creator", methods=["GET"])
     @jwt_required()

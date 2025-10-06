@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="300"
+   height="300"
+   viewBox="0 0 300 300"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="g4">
+    <rect
+       style="fill:none;stroke:#ffffff;stroke-width:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1"
+       width="73.547997"
+       height="49.677418"
+       x="71.225998"
+       y="107.16129"
+       ry="13.612907" />
+    <rect
+       style="fill:none;stroke:#ffffff;stroke-width:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2"
+       width="73.547997"
+       height="49.677418"
+       x="157.226"
+       y="107.16129"
+       ry="13.612907" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.78583;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3"
+       width="16.126425"
+       height="4"
+       x="142.96841"
+       y="129.74614"
+       ry="0" />
+  </g>
+</svg>
