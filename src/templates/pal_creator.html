@@ -1,56 +1,62 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Pal Creator</title>
     <link rel="stylesheet" href="/static/style.css">
-    <style>
-        .pal-creator-container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: 40px auto; }
-        .pal-preview { width: 256px; height: 256px; background: #eee; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid #ccc; }
-        .pal-controls { display: flex; flex-direction: column; gap: 10px; }
-        .pal-controls label { display: flex; align-items: center; gap: 10px; }
-        .pal-controls select, .pal-controls input[type=color] { margin-left: auto; }
-        #pal-json { background: #f8f8f8; border: 1px solid #ddd; padding: 10px; font-size: 0.9em; border-radius: 5px; margin-top: 10px; }
-        .save-btn { margin-top: 20px; }
-    </style>
 </head>
 <body>
-    <div class="pal-creator-container">
+    <div class="container">
         <h1>Create Your Pal</h1>
+        <div class="pal-preview"></div>
+        <!-- BG Color -->
+        <label>Background Color: <br><input type="color" id="base-color"></label>
+        <div class="tabs">
+            <button class="tab-btn" data-tab="head">Head</button>
+            <button class="tab-btn" data-tab="hair">Hair</button>
+            <button class="tab-btn" data-tab="eyes">Eyes</button>
+            <button class="tab-btn" data-tab="nose">Nose</button>
+            <button class="tab-btn" data-tab="mouth">Mouth</button>
+            <button class="tab-btn" data-tab="accessory">Accessory</button>
+        </div>
         
-        <div class="pal-preview">
-            <!-- Later, show a preview image here in the future -->
-            <pre id="pal-json"></pre>
+        <!-- Head -->
+        <div class="tab-content" id="tab-head">
+            <input type="color" id="head-color">
+            <div class="part-previews" id="head-previews"></div>
         </div>
-        <div class="pal-controls">
-            <label>Background Color: <input type="color" id="base-color"></label>
-            <label>Head:
-                <select id="head-select"></select>
-                <input type="color" id="head-color">
-            </label>
-            <label>Hair:
-                <select id="hair-select"></select>
-                <input type="color" id="hair-color">
-            </label>
-            <label>Eyes:
-                <select id="eyes-select"></select>
-                <input type="color" id="eyes-color">
-            </label>
-            <label>Nose:
-                <select id="nose-select"></select>
-                <input type="color" id="nose-color">
-            </label>
-            <label>Mouth:
-                <select id="mouth-select"></select>
-                <input type="color" id="mouth-color">
-            </label>
-            <label>Accessory:
-                <select id="accessory-select"></select>
-                <input type="color" id="accessory-color">
-            </label>
-            <button class="save-btn" id="save-pal-btn">Save Pal</button>
+
+        <!-- Hair -->
+        <div class="tab-content" id="tab-hair" style="display:none">
+            <input type="color" id="hair-color">
+            <div class="part-previews" id="hair-previews"></div>
         </div>
+
+        <!-- Eyes -->
+        <div class="tab-content" id="tab-eyes" style="display:none">
+            <input type="color" id="eyes-color">
+            <div class="part-previews" id="eyes-previews"></div>
+        </div>
+
+        <!-- Nose -->
+        <div class="tab-content" id="tab-nose" style="display:none">
+            <input type="color" id="nose-color">
+            <div class="part-previews" id="nose-previews"></div>
+        </div>
+
+        <!-- Mouth -->
+        <div class="tab-content" id="tab-mouth" style="display:none">
+            <input type="color" id="mouth-color">
+            <div class="part-previews" id="mouth-previews"></div>
+        </div>
+
+        <!-- Accessory -->
+        <div class="tab-content" id="tab-accessory" style="display:none">
+            <input type="color" id="accessory-color">
+            <div class="part-previews" id="accessory-previews"></div>
+        </div>
+
+        <button class="save-btn" id="save-pal-btn">Save Pal</button>
     </div>
     <script type="text/javascript">
         const pal_parts = {{ pal_parts|tojson|safe }};

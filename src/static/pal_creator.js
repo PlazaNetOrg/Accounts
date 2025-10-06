@@ -27,8 +27,33 @@ function hexToRgb(hex) {
 }
 
 function updatePreview() {
-    // For now, just show the JSON. Later it will request a preview from the backend.
-    document.getElementById('pal-json').textContent = JSON.stringify(pal, null, 2);
+    // Show JSON
+    // document.getElementById('pal-json').textContent = JSON.stringify(pal, null, 2);
+    // Show SVG preview
+    fetch('/api/pal_preview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pal })
+    })
+    .then(r => r.ok ? r.text() : Promise.reject('Preview error'))
+    .then(svg => {
+        let preview = document.getElementById('pal-svg-preview');
+        if (!preview) {
+            preview = document.createElement('div');
+            preview.id = 'pal-svg-preview';
+            preview.style.width = '256px';
+            preview.style.height = '256px';
+            preview.style.display = 'flex';
+            preview.style.alignItems = 'center';
+            preview.style.justifyContent = 'center';
+            document.querySelector('.pal-preview').prepend(preview);
+        }
+        preview.innerHTML = svg;
+    })
+    .catch(() => {
+        let preview = document.getElementById('pal-svg-preview');
+        if (preview) preview.innerHTML = '<span style="color:red">Preview error</span>';
+    });
 }
 
 function setPart(layer, filename) {
@@ -56,16 +81,57 @@ function savePal() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    for (const layer of layerOrder) {
-        const select = document.getElementById(layer + '-select');
-        if (!select) continue;
-        select.innerHTML = '<option value="">None</option>' +
-            (pal_parts[layer] || []).map(f => `<option value="${f.replace('.svg','')}">${f.replace('.svg','')}</option>`).join('');
-        if (pal[layer] && pal[layer][0]) {
-            select.value = pal[layer][0];
-        }
-        select.addEventListener('change', e => setPart(layer, e.target.value));
+    // Tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(tc => tc.style.display = 'none');
+            btn.classList.add('active');
+            document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+        });
+    });
+    if (tabBtns.length) {
+        tabBtns[0].classList.add('active');
+        tabContents[0].style.display = 'block';
     }
+
+    // Populate part pickers
+    for (const layer of layerOrder) {
+        const previews = document.getElementById(layer + '-previews');
+        if (previews) {
+            let noneBtn = document.createElement('div');
+            noneBtn.className = 'part-preview' + (!pal[layer][0] ? ' selected' : '');
+            noneBtn.title = 'None';
+            noneBtn.innerHTML = `<svg width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>`;
+            noneBtn.addEventListener('click', function() {
+                setPart(layer, '');
+                previews.querySelectorAll('.part-preview').forEach(d => d.classList.remove('selected'));
+                noneBtn.classList.add('selected');
+            });
+            previews.innerHTML = '';
+            previews.appendChild(noneBtn);
+
+            (pal_parts[layer] || []).forEach(f => {
+                let div = document.createElement('div');
+                div.className = 'part-preview' + (pal[layer] && pal[layer][0] === f.replace('.svg','') ? ' selected' : '');
+                div.dataset.fn = f.replace('.svg','');
+                let img = document.createElement('img');
+                img.src = `/static/assets/pal_parts/${layer}/${f}`;
+                img.alt = f;
+                img.style.borderRadius = '8px';
+                div.appendChild(img);
+                div.addEventListener('click', function() {
+                    setPart(layer, div.dataset.fn);
+                    previews.querySelectorAll('.part-preview').forEach(d => d.classList.remove('selected'));
+                    div.classList.add('selected');
+                });
+                previews.appendChild(div);
+            });
+        }
+    }
+    // Color pickers
     for (const layer of layerOrder) {
         const colorInput = document.getElementById(layer + '-color');
         if (!colorInput) continue;

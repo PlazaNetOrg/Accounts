@@ -5,24 +5,27 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 .container {
     background: white;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    width: 80%;
-    height: 80%;
+    width: 90vw;
+    max-width: 600px;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 input {
-    width: 100%;
     padding: 8px;
     margin: 5px 0;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
 button {
-    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -41,4 +44,102 @@ a {
     text-decoration: none;
     color: #007bff;
     cursor: pointer;
+}
+
+/* Pal Creator */
+.pal-preview {
+    width: 256px;
+    height: 256px;
+    background: #eee;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid #e0e0e0;
+}
+.tab-btn {
+    padding: 10px 24px;
+    border: 1px solid #e0e0e0;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    background: #f8f8f8;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+    outline: none;
+    margin-right: 2px;
+    margin-bottom: -2px;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+    top: 2px;
+}
+.tab-btn.active {
+    background: #fff;
+    color: #007bff;
+    border-bottom: 2px solid #fff;
+    z-index: 2;
+}
+.tab-content {
+    display: block;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    padding: 16px 0 0 0;
+}
+.part-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+.part-previews svg, .part-previews img, .part-previews .none-btn {
+    width: 72px;
+    height: 72px;
+    background: repeating-linear-gradient(45deg, #8b8b8b 0 10px, #5b5b5b 10px 20px);
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    object-fit: contain;
+    display: block;
+}
+.part-previews .selected {
+    border: 3px solid #007bff;
+}
+input[type="color"] {
+    margin-left: 8px;
+    border: none;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: none;
+}
+.save-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+.save-btn:hover {
+    background: #0056b3;
 }

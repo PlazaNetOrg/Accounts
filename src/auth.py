@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from passlib.hash import pbkdf2_sha256
 from .models import db, User
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies
@@ -54,7 +54,7 @@ def login():
         return jsonify({'msg': 'bad credentials'}), 401
 
     additional_claims = {"aud": audience}
-    access_token = create_access_token(identity=user.username, additional_claims=additional_claims, expires_delta=timedelta(minutes=15))
+    access_token = create_access_token(identity=user.username, additional_claims=additional_claims, expires_delta=timedelta(seconds=current_app.config['JWT_ACCESS_TOKEN_EXPIRES']))
     refresh_token = create_refresh_token(identity=user.username, additional_claims=additional_claims)
     resp = make_response(jsonify({'msg': 'login successful', 'user': user.to_dict()}))
     set_access_cookies(resp, access_token)
@@ -68,5 +68,5 @@ def refresh():
     claims = get_jwt()
     audience = claims.get("aud", "plazanet")
     additional_claims = {"aud": audience}
-    new_token = create_access_token(identity=identity, additional_claims=additional_claims, expires_delta=timedelta(minutes=15))
+    new_token = create_access_token(identity=identity, additional_claims=additional_claims, expires_delta=timedelta(seconds=current_app.config['JWT_ACCESS_TOKEN_EXPIRES']))
     return jsonify({'access_token': new_token})

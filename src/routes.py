@@ -108,3 +108,12 @@ def pal_image(username):
     parts_dir = current_app.config.get('PAL_PARTS_DIR')
     svg = compose_pal(user.pal_json, parts_dir)
     return current_app.response_class(svg, mimetype='image/svg+xml')
+
+@bp.route('/pal_preview', methods=['POST'])
+def pal_preview():
+    data = request.get_json() or {}
+    pal = data.get('pal')
+    parts_dir = current_app.config.get('PAL_PARTS_DIR')
+    from .utils.pal import compose_pal
+    svg = compose_pal(pal, parts_dir)
+    return current_app.response_class(svg, mimetype='image/svg+xml')
