@@ -10,7 +10,6 @@ A Python Flask Server providing accounts for [PlazaNet](https://github.com/Plaza
   - Return user's Pal
 - Account Managment:
   - Account creation and deletion
-  - Birthday management
 - Avatar (Pal) Editor:
   - Create and customize your Pal
 - Security:
