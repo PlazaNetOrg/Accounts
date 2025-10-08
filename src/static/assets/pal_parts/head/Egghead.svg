@@ -10,14 +10,15 @@
   <defs
      id="defs1" />
   <g
-     id="g6">
+     id="g6"
+     style="fill:#000000;fill-opacity:1">
     <path
-       style="font-variation-settings:'opsz' 32;opacity:1;fill:#ffffff;stroke:none;stroke-width:0.965454"
+       style="font-variation-settings:'opsz' 32;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.965454"
        id="path5"
        d="m 256.81897,-191.35069 a 106.46542,183.35069 0 0 1 -53.23271,158.786356 106.46542,183.35069 0 0 1 -106.465429,-4e-6 A 106.46542,183.35069 0 0 1 43.888123,-191.35069 H 150.35355 Z"
        transform="scale(1,-1)" />
     <path
-       style="font-variation-settings:'opsz' 32;opacity:1;fill:#ffffff;stroke:none;stroke-width:0.73317"
+       style="font-variation-settings:'opsz' 32;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.73317"
        id="path6"
        d="m 256.81897,186.24619 a 106.46542,105.73692 0 0 1 -53.23271,91.57086 106.46542,105.73692 0 0 1 -106.465429,0 106.46542,105.73692 0 0 1 -53.232708,-91.57086 H 150.35355 Z" />
   </g>

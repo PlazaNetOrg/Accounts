@@ -10,13 +10,11 @@
   <defs
      id="defs1" />
   <path
-     style="font-variation-settings:'opsz' 32;fill:none;stroke:#ffffff;stroke-width:5;stroke-dasharray:none"
+     style="font-variation-settings:'opsz' 32;fill:none;stroke:#000000;stroke-width:5;stroke-dasharray:none;stroke-opacity:1"
      id="path1"
-     d="m 133.329,-140.50427 a 23.329,19.500412 0 0 1 -11.6645,16.88785 23.329,19.500412 0 0 1 -23.329001,0 A 23.329,19.500412 0 0 1 86.671,-140.50427"
-     transform="scale(1,-1)" />
+     d="m 133.329,140.50427 a 23.329,19.500412 0 0 0 -11.6645,-16.88785 23.329,19.500412 0 0 0 -23.329001,0 A 23.329,19.500412 0 0 0 86.671,140.50427" />
   <path
-     style="font-variation-settings:'opsz' 32;fill:none;stroke:#ffffff;stroke-width:5;stroke-dasharray:none"
+     style="font-variation-settings:'opsz' 32;fill:none;stroke:#000000;stroke-width:5;stroke-dasharray:none;stroke-opacity:1"
      id="path2"
-     d="m 213.329,-140.50427 a 23.329,19.500412 0 0 1 -11.6645,16.88785 23.329,19.500412 0 0 1 -23.329,0 23.329,19.500412 0 0 1 -11.6645,-16.88785"
-     transform="scale(1,-1)" />
+     d="m 213.329,140.50427 a 23.329,19.500412 0 0 0 -11.6645,-16.88785 23.329,19.500412 0 0 0 -23.329,0 23.329,19.500412 0 0 0 -11.6645,16.88785" />
 </svg>

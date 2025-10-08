@@ -10,13 +10,13 @@
   <defs
      id="defs1" />
   <circle
-     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none"
+     style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none"
      id="path3"
      cx="190"
      cy="132.58064"
      r="15" />
   <circle
-     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none"
+     style="fill:#0f0f0f;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none"
      id="circle3"
      cx="110"
      cy="132.58064"

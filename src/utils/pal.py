@@ -30,13 +30,15 @@ def compose_pal(pal_json, parts_dir, size=(300, 300)):
         s = re.sub(r'</svg>', '', s, flags=re.I)
         if color:
             hex_color = '#%02x%02x%02x' % tuple(color)
-            s = re.sub(r'(fill|stroke)=("|\')#[0-9a-fA-F]{3,6}("|\')', lambda m: f'{m.group(1)}="{hex_color}"', s, flags=re.I)
-            def style_color(m):
-                style = m.group(0)
-                style = re.sub(r'(fill\s*:\s*)#[0-9a-fA-F]{3,6}', r'\1'+hex_color, style, flags=re.I)
-                style = re.sub(r'(stroke\s*:\s*)#[0-9a-fA-F]{3,6}', r'\1'+hex_color, style, flags=re.I)
-                return style
-            s = re.sub(r'style=("[^"]*"|\'[^"]*\')', style_color, s, flags=re.I)
+            is_white = (re.search(r'(fill|stroke)(\s*:\s*)#fff(fff)?', s, flags=re.I))
+            if not is_white:
+                s = re.sub(r'(fill|stroke)=("|\')#[0-9a-fA-F]{3,6}("|\')', lambda m: f'{m.group(1)}="{hex_color}"', s, flags=re.I)
+                def style_color(m):
+                    style = m.group(0)
+                    style = re.sub(r'(fill\s*:\s*)#[0-9a-fA-F]{3,6}', r'\1'+hex_color, style, flags=re.I)
+                    style = re.sub(r'(stroke\s*:\s*)#[0-9a-fA-F]{3,6}', r'\1'+hex_color, style, flags=re.I)
+                    return style
+                s = re.sub(r'style=("[^"]*"|\'[^"]*\')', style_color, s, flags=re.I)
         svg.append(f'<g transform="translate({w*0.125},{h*0.125}) scale(0.75)">{s}</g>')
     svg.append('</svg>')
     return '\n'.join(svg)

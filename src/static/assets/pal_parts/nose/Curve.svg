@@ -10,7 +10,7 @@
   <defs
      id="defs1" />
   <path
-     style="font-variation-settings:'opsz' 32;opacity:1;fill:none;stroke:#ffffff;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+     style="font-variation-settings:'opsz' 32;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
      id="path9"
      d="m 175,169.35328 c 8.75811,5.17816 -4.76497,17.18481 -12.5,21.65063 -7.73503,4.46582 -17.26497,4.46582 -25,0 -7.73503,-4.46582 -19.85055,-17.72363 -12.5,-21.65063" />
 </svg>

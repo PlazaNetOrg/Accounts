@@ -11,9 +11,10 @@
      id="defs1" />
   <g
      id="g6"
-     transform="matrix(0.61393863,0,0,0.61393863,57.308166,84.884672)">
+     transform="matrix(0.61393863,0,0,0.61393863,57.308166,84.884672)"
+     style="fill:#000000;fill-opacity:1;stroke:none">
     <rect
-       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.50625;stroke-dasharray:none"
+       style="font-variation-settings:'opsz' 32;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.50625;stroke-dasharray:none"
        id="rect1"
        width="5"
        height="35"
@@ -21,7 +22,7 @@
        y="-59.836952"
        transform="rotate(-135)" />
     <rect
-       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.52925;stroke-dasharray:none"
+       style="font-variation-settings:'opsz' 32;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.52925;stroke-dasharray:none"
        id="rect2"
        width="5.0763388"
        height="35.534374"
@@ -29,7 +30,7 @@
        y="-272.16785"
        transform="matrix(0.718346,-0.69568601,-0.718346,-0.69568601,0,0)" />
     <rect
-       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.51927;stroke-dasharray:none"
+       style="font-variation-settings:'opsz' 32;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.51927;stroke-dasharray:none"
        id="rect3"
        width="5.0432053"
        height="35.302437"
@@ -37,7 +38,7 @@
        y="-92.829643"
        transform="matrix(-0.71356068,-0.70059344,0.71356068,-0.70059344,0,0)" />
     <rect
-       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.54292;stroke-dasharray:none"
+       style="font-variation-settings:'opsz' 32;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.54292;stroke-dasharray:none"
        id="rect4"
        width="5.1217079"
        height="35.851955"
@@ -45,7 +46,7 @@
        y="-242.82747"
        transform="matrix(0.7246896,-0.68907546,-0.7246896,-0.68907546,0,0)" />
     <rect
-       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.50325;stroke-dasharray:none"
+       style="font-variation-settings:'opsz' 32;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.50325;stroke-dasharray:none"
        id="rect5"
        width="4.9900465"
        height="34.930328"
@@ -53,7 +54,7 @@
        y="-28.770468"
        transform="matrix(-0.70558533,-0.70862496,0.70558533,-0.70862496,0,0)" />
     <rect
-       style="font-variation-settings:'opsz' 32;fill:#ffffff;fill-rule:nonzero;stroke:#ffffff;stroke-width:1.5261;stroke-dasharray:none"
+       style="font-variation-settings:'opsz' 32;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.5261;stroke-dasharray:none"
        id="rect6"
        width="5.0658846"
        height="35.461193"
