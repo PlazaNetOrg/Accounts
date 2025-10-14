@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, redirect, url_for, request, make_response
+from flask import Flask, render_template, redirect, url_for, request, make_response, jsonify, request
 from .config import Config
 from .models import db, User
 from .auth import bp as auth_bp
@@ -22,6 +22,24 @@ def create_app():
 
     db.init_app(app)
     jwt = JWTManager(app)
+
+    @jwt.unauthorized_loader
+    def _unauthorized_callback(msg):
+        if request.accept_mimetypes.accept_html:
+            return redirect(url_for("login_page"))
+        return jsonify({'msg': msg}), 401
+
+    @jwt.invalid_token_loader
+    def _invalid_token_callback(msg):
+        if request.accept_mimetypes.accept_html:
+            return redirect(url_for("login_page"))
+        return jsonify({'msg': msg}), 422
+
+    @jwt.expired_token_loader
+    def _expired_token_callback(jwt_header, jwt_payload):
+        if request.accept_mimetypes.accept_html:
+            return redirect(url_for("login_page"))
+        return jsonify({'msg': 'token expired'}), 401
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(api_bp)
@@ -73,16 +91,14 @@ def create_app():
 
     @app.errorhandler(401)
     def handle_unauthorized(e):
-        from flask import request
-        if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
-            return jsonify({'msg': 'unauthorized'}), 401
-        return redirect(url_for("login_page"))
+        if request.accept_mimetypes.accept_html:
+            return redirect(url_for("login_page"))
+        return jsonify({'msg': 'unauthorized'}), 401
 
     @app.errorhandler(422)
     def handle_unprocessable_entity(e):
-        from flask import request
-        if request.accept_mimetypes.accept_json and not request.accept_mimetypes.accept_html:
-            return jsonify({'msg': 'token error'}), 422
-        return redirect(url_for("login_page"))
+        if request.accept_mimetypes.accept_html:
+            return redirect(url_for("login_page"))
+        return jsonify({'msg': 'token error'}), 422
 
     return app

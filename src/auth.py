@@ -50,8 +50,10 @@ def login():
         return jsonify({'msg': 'username and password required'}), 400
 
     user = User.query.filter_by(username=username).first()
-    if not user or not pbkdf2_sha256.verify(password, user.password_hash):
-        return jsonify({'msg': 'bad credentials'}), 401
+    if not user:
+        return jsonify({'msg': 'username not found'}), 404
+    if not pbkdf2_sha256.verify(password, user.password_hash):
+        return jsonify({'msg': 'wrong password'}), 401
 
     additional_claims = {"aud": audience}
     access_token = create_access_token(identity=user.username, additional_claims=additional_claims, expires_delta=timedelta(seconds=current_app.config['JWT_ACCESS_TOKEN_EXPIRES']))
