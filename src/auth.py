@@ -59,8 +59,13 @@ def login():
     access_token = create_access_token(identity=user.username, additional_claims=additional_claims, expires_delta=timedelta(seconds=current_app.config['JWT_ACCESS_TOKEN_EXPIRES']))
     refresh_token = create_refresh_token(identity=user.username, additional_claims=additional_claims)
     resp = make_response(jsonify({'msg': 'login successful', 'user': user.to_dict()}))
+    cookie_domain = current_app.config.get('JWT_COOKIE_DOMAIN')
+    cookie_secure = current_app.config.get('JWT_COOKIE_SECURE', True)
+    cookie_samesite = current_app.config.get('JWT_COOKIE_SAMESITE', 'None')
     set_access_cookies(resp, access_token)
+    resp.set_cookie(current_app.config['JWT_ACCESS_COOKIE_NAME'], access_token, domain=cookie_domain, secure=cookie_secure, httponly=True, samesite=cookie_samesite)
     set_refresh_cookies(resp, refresh_token)
+    resp.set_cookie(current_app.config['JWT_REFRESH_COOKIE_NAME'], refresh_token, domain=cookie_domain, secure=cookie_secure, httponly=True, samesite=cookie_samesite)
     return resp, 200
 
 @bp.route('/refresh', methods=['POST'])

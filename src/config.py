@@ -15,10 +15,11 @@ class Config:
     JWT_REFRESH_COOKIE_NAME = os.getenv("JWT_REFRESH_COOKIE_NAME", "refresh_token")
     JWT_COOKIE_CSRF_PROTECT = os.getenv("JWT_COOKIE_CSRF_PROTECT", "False") == "True"
     JWT_ACCESS_TOKEN_EXPIRES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES", "604800"))  # 7 days
+    JWT_COOKIE_DOMAIN = os.getenv("JWT_COOKIE_DOMAIN", "None")
+    JWT_COOKIE_SECURE = os.getenv("JWT_COOKIE_SECURE", "True") == "False"
+    JWT_COOKIE_SAMESITE = os.getenv("JWT_COOKIE_SAMESITE", "Lax")
 
     # Settings
-    ## At least one needs to be enabled:
     PLAZANET_ENABLE = os.getenv("PLAZANET_ENABLE", "true")
     PLAZANET_DOMAIN = os.getenv("PLAZANET_DOMAIN", "app.plazanet.org")
-    ENABLE_GAMEPLAZA = os.getenv("GAMEPLAZA_ENABLE", "true")
 

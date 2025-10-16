@@ -59,7 +59,12 @@ def create_app():
     @app.route("/logout", methods=["GET"])
     def logout_route():
         resp = make_response(redirect("/login"))
-        resp.set_cookie(app.config["JWT_ACCESS_COOKIE_NAME"], "", expires=0)
+        domain = app.config.get("JWT_COOKIE_DOMAIN")
+        secure = app.config.get("JWT_COOKIE_SECURE", True)
+        samesite = app.config.get("JWT_COOKIE_SAMESITE", "None")
+        # Clear access and refresh cookies
+        resp.set_cookie(app.config["JWT_ACCESS_COOKIE_NAME"], "", expires=0, domain=domain, secure=secure, httponly=True, samesite=samesite)
+        resp.set_cookie(app.config["JWT_REFRESH_COOKIE_NAME"], "", expires=0, domain=domain, secure=secure, httponly=True, samesite=samesite)
         return resp
 
     @app.route("/pal_creator", methods=["GET"])
