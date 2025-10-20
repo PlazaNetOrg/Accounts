@@ -13,12 +13,16 @@
         <!-- BG Color -->
         <label>Background Color: <br><input type="color" id="base-color"></label>
         <div class="tabs">
-            <button class="tab-btn" data-tab="head">Head</button>
+            <!-- TODO: Icon's instead of text -->
+            <button class="tab-btn" data-tab="head"></button>
             <button class="tab-btn" data-tab="hair">Hair</button>
-            <button class="tab-btn" data-tab="eyes">Eyes</button>
-            <button class="tab-btn" data-tab="nose">Nose</button>
-            <button class="tab-btn" data-tab="mouth">Mouth</button>
-            <button class="tab-btn" data-tab="accessory">Accessory</button>
+            <button class="tab-btn" data-tab="eyebrows">Eyebrows</button>
+            <button class="tab-btn" data-tab="eyes"></button>
+            <button class="tab-btn" data-tab="nose"></button>
+            <button class="tab-btn" data-tab="mustache">Mustache</button>
+            <button class="tab-btn" data-tab="mouth"></button>
+            <button class="tab-btn" data-tab="beard">Beard</button>
+            <button class="tab-btn" data-tab="accessory"></button>
         </div>
         
         <!-- Head -->
@@ -33,6 +37,12 @@
             <div class="part-previews" id="hair-previews"></div>
         </div>
 
+        <!-- Eyebrows -->
+         <div class="tab-content" id="tab-eyebrows" style="display:none">
+            <input type="color" id="eyebrows-color">
+            <div class="part-previews" id="eyebrows-previews"></div>
+         </div>
+
         <!-- Eyes -->
         <div class="tab-content" id="tab-eyes" style="display:none">
             <input type="color" id="eyes-color">
@@ -45,10 +55,22 @@
             <div class="part-previews" id="nose-previews"></div>
         </div>
 
+        <!-- Mustache -->
+        <div class="tab-content" id="tab-mustache" style="display:none">
+            <input type="color" id="mustache-color">
+            <div class="part-previews" id="mustache-previews"></div>
+        </div>
+
         <!-- Mouth -->
         <div class="tab-content" id="tab-mouth" style="display:none">
             <input type="color" id="mouth-color">
             <div class="part-previews" id="mouth-previews"></div>
+        </div>
+
+        <!-- Beard -->
+        <div class="tab-content" id="tab-beard" style="display:none">
+            <input type="color" id="beard-color">
+            <div class="part-previews" id="beard-previews"></div>
         </div>
 
         <!-- Accessory -->
@@ -58,6 +80,11 @@
         </div>
 
         <button class="save-btn" id="save-pal-btn">Save Pal</button>
+
+        <details>
+            <summary>Show Pal Code (JSON)</summary>
+            <code id="pal-json"></code>
+        </details>
     </div>
     <script type="text/javascript">
         const pal_parts = {{ pal_parts|tojson|safe }};

@@ -1,12 +1,15 @@
-const layerOrder = ['head', 'hair', 'eyes', 'nose', 'mouth', 'accessory'];
+const layerOrder = ['head', 'hair', 'eyebrows', 'eyes', 'nose', 'mustache', 'mouth', 'beard', 'accessory'];
 
 let pal = {
-    base: [255, 223, 186],
-    head: [null, [255, 224, 189]],
+    base: [58, 159, 241],
+    head: ['Teardrop', [255, 224, 189]],
     hair: [null, [0, 0, 0]],
-    nose: [null, [0, 0, 0]],
-    eyes: [null, [0, 0, 0]],
-    mouth: [null, [255, 0, 0]],
+    eyebrows: [null, [0, 0, 0]],
+    eyes: ['Round', [0, 0, 0]],
+    nose: ['Curve', [0, 0, 0]],
+    mustache: [null, [0, 0, 0]],
+    mouth: ['Neutral', [0, 0, 0]],
+    beard: [null, [0, 0, 0]],
     accessory: [null, [0, 0, 0]]
 };
 if (typeof pal_json !== 'undefined' && pal_json) {
@@ -28,7 +31,7 @@ function hexToRgb(hex) {
 
 function updatePreview() {
     // Show JSON
-    // document.getElementById('pal-json').textContent = JSON.stringify(pal, null, 2);
+    document.getElementById('pal-json').textContent = JSON.stringify(pal, null, 2);
     // Show SVG preview
     fetch('/api/pal_preview', {
         method: 'POST',
@@ -70,10 +73,12 @@ function setBaseColor(color) {
 }
 
 function savePal() {
+    console.info(JSON.stringify({ pal }));
     fetch('/api/save_pal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pal })
+        body: JSON.stringify({ pal }),
+        credentials: 'include'
     }).then(r => r.json()).then(data => {
         if (data.success) alert('Pal saved!');
         else alert('Error saving pal: ' + (data.error || 'unknown'));

@@ -94,16 +94,4 @@ def create_app():
             PLAZANET_DOMAIN=app.config.get("PLAZANET_DOMAIN")
         )
 
-    @app.errorhandler(401)
-    def handle_unauthorized(e):
-        if request.accept_mimetypes.accept_html:
-            return redirect(url_for("login_page"))
-        return jsonify({'msg': 'unauthorized'}), 401
-
-    @app.errorhandler(422)
-    def handle_unprocessable_entity(e):
-        if request.accept_mimetypes.accept_html:
-            return redirect(url_for("login_page"))
-        return jsonify({'msg': 'token error'}), 422
-
     return app

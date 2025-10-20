@@ -13,7 +13,7 @@ def compose_pal(pal_json, parts_dir, size=(300, 300)):
     bg_hex = '#%02x%02x%02x' % tuple(bg)
     svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">']
     svg.append(f'<circle cx="{w//2}" cy="{h//2}" r="{min(w,h)//2}" fill="{bg_hex}"/>')
-    layers = ['head', 'hair', 'eyes', 'nose', 'mouth', 'accessory']
+    layers = ['head', 'hair', 'eyebrows', 'eyes', 'nose', 'mustache', 'mouth', 'beard', 'accessory']
     from flask import current_app
     static = current_app.static_folder
     parts_dir = os.path.join(static, os.path.relpath(parts_dir, 'static'))
