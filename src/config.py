@@ -10,13 +10,13 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///plazanet.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PAL_PARTS_DIR = "static/assets/pal_parts"
-    JWT_TOKEN_LOCATION = os.getenv("JWT_TOKEN_LOCATION", "cookies").split(",")
+    JWT_TOKEN_LOCATION = os.getenv("JWT_TOKEN_LOCATION", "cookies")
     JWT_ACCESS_COOKIE_NAME = os.getenv("JWT_ACCESS_COOKIE_NAME", "access_token")
     JWT_REFRESH_COOKIE_NAME = os.getenv("JWT_REFRESH_COOKIE_NAME", "refresh_token")
     JWT_COOKIE_CSRF_PROTECT = os.getenv("JWT_COOKIE_CSRF_PROTECT", "False")
     JWT_ACCESS_TOKEN_EXPIRES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES", "604800"))  # 7 days
-    JWT_COOKIE_DOMAIN = os.getenv("JWT_COOKIE_DOMAIN", "None")
-    JWT_COOKIE_SECURE = os.getenv("JWT_COOKIE_SECURE", "True")
+    JWT_COOKIE_DOMAIN = os.getenv("JWT_COOKIE_DOMAIN", None)
+    JWT_COOKIE_SECURE = os.getenv("JWT_COOKIE_SECURE", "False")
     JWT_COOKIE_SAMESITE = os.getenv("JWT_COOKIE_SAMESITE", "Lax")
 
     # Settings

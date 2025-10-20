@@ -76,12 +76,32 @@ function savePal() {
     console.info(JSON.stringify({ pal }));
     fetch('/api/save_pal', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: (function(){
+            const h = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+            try {
+                const ck = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('csrf_access_token='));
+                if (ck) {
+                    h['X-CSRF-TOKEN'] = decodeURIComponent(ck.split('=')[1]);
+                }
+            } catch (e) {}
+            return h;
+        })(),
         body: JSON.stringify({ pal }),
         credentials: 'include'
-    }).then(r => r.json()).then(data => {
-        if (data.success) alert('Pal saved!');
-        else alert('Error saving pal: ' + (data.error || 'unknown'));
+    })
+    .then(r => {
+        const ct = (r.headers.get('content-type') || '').toLowerCase();
+        if (!r.ok) return r.text().then(t => { throw new Error('HTTP ' + r.status + ': ' + t) });
+        if (ct.includes('application/json')) return r.json();
+        return r.text().then(t => { throw new Error('Unexpected response: ' + t) });
+    })
+    .then(data => {
+        if (data && data.success) alert('Pal saved!');
+        else alert('Error saving pal: ' + (data && data.error ? data.error : 'unknown'));
+    })
+    .catch(err => {
+        console.error('savePal error', err);
+        alert('Error saving pal: ' + (err.message || err));
     });
 }
 

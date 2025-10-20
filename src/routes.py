@@ -92,14 +92,19 @@ def set_status():
 @bp.route("/save_pal", methods=["POST"])
 @jwt_required()
 def save_pal():
-    pal = request.json.get("pal")
+    data = request.get_json(silent=True) or {}
+    pal = data.get("pal")
     username = get_jwt_identity()
     user = User.query.filter_by(username=username).first()
     if not user:
         return jsonify({"success": False, "error": "User not found"}), 404
     import json as _json
-    user.pal_json = _json.dumps(pal)
-    db.session.commit()
+    try:
+        user.pal_json = _json.dumps(pal)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.exception("Failed saving pal for %s", username)
+        return jsonify({"success": False, "error": "internal error"}), 500
     return jsonify({"success": True})
 
 @bp.route('/pal/<username>.svg')
