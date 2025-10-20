@@ -41,6 +41,7 @@ Wanna support the project? Here are the best ways you can:
 - Contribute to the code:
   - Implement new features
   - Fix bugs
+- Report bugs you can't fix yourself
 - Donate to Andus on [Ko-fi](https://ko-fi.com/andusdev)
   - This will help with payments for the domain and VPS hosting for the official PlazaNet Instance.
 > [!IMPORTANT]  
