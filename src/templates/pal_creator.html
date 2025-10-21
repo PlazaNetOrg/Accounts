@@ -1,95 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Pal Creator</title>
-    <link rel="stylesheet" href="/static/style.css">
+	<meta charset="UTF-8">
+	<title>Pal Creator</title>
+	<link rel="stylesheet" href="/static/style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-    <div class="container">
-        <h1>Create Your Pal</h1>
-        <div class="pal-preview"></div>
-        <p><a href="/me">Open Account Page</a></p>
-        <!-- BG Color -->
-        <label>Background Color: <br><input type="color" id="base-color"></label>
-        <div class="tabs">
-            <!-- TODO: Icon's instead of text -->
-            <button class="tab-btn" data-tab="head"></button>
-            <button class="tab-btn" data-tab="hair">Hair</button>
-            <button class="tab-btn" data-tab="eyebrows">Eyebrows</button>
-            <button class="tab-btn" data-tab="eyes"></button>
-            <button class="tab-btn" data-tab="nose"></button>
-            <button class="tab-btn" data-tab="mustache">Mustache</button>
-            <button class="tab-btn" data-tab="mouth"></button>
-            <button class="tab-btn" data-tab="beard">Beard</button>
-            <button class="tab-btn" data-tab="accessory"></button>
-        </div>
-        
-        <!-- Head -->
-        <div class="tab-content" id="tab-head">
-            <input type="color" id="head-color">
-            <div class="part-previews" id="head-previews"></div>
-        </div>
+	<div class="container">
+		<h1>Create Your Pal</h1>
+		<div class="pal-preview"></div>
+		<p><a href="/me">Open Account Page</a></p>
+		<!-- BG Color -->
+		<label>Background Color: <br><input type="color" id="base-color"></label>
+		<div class="tabs">
+			<button class="tab-btn" data-tab="head"><img width="20" src="/static/assets/pal_creator/Head.svg"></button>
+            <button class=" tab-btn" data-tab="hair"><img width="20" src="/static/assets/pal_creator/Hair.svg"></button>
+			<button class="tab-btn" data-tab="eyebrows"><img width="20" src="/static/assets/pal_creator/Eyebrows.svg"></button>
+			<button class="tab-btn" data-tab="eyes"><img width="20" src="/static/assets/pal_creator/Eyes.svg"></button>
+			<button class="tab-btn" data-tab="nose"><img width="20" src="/static/assets/pal_creator/Nose.svg"></button>
+			<button class="tab-btn" data-tab="mustache"><img width="20" src="/static/assets/pal_creator/Mustache.svg"></button>
+			<button class="tab-btn" data-tab="mouth"><img width="20" src="/static/assets/pal_creator/Mouth.svg"></button>
+			<button class="tab-btn" data-tab="beard"><img width="20" src="/static/assets/pal_creator/Beard.svg"></button>
+			<button class="tab-btn" data-tab="accessory"><img width="20" src="/static/assets/pal_creator/Accessory.svg"></button>
+		</div>
 
-        <!-- Hair -->
-        <div class="tab-content" id="tab-hair" style="display:none">
-            <input type="color" id="hair-color">
-            <div class="part-previews" id="hair-previews"></div>
-        </div>
+		<!-- Head -->
+		<div class="tab-content" id="tab-head">
+			<input type="color" id="head-color">
+			<div class="part-previews" id="head-previews"></div>
+		</div>
 
-        <!-- Eyebrows -->
-         <div class="tab-content" id="tab-eyebrows" style="display:none">
-            <input type="color" id="eyebrows-color">
-            <div class="part-previews" id="eyebrows-previews"></div>
-         </div>
+		<!-- Hair -->
+		<div class="tab-content" id="tab-hair" style="display:none">
+			<input type="color" id="hair-color">
+			<div class="part-previews" id="hair-previews"></div>
+		</div>
 
-        <!-- Eyes -->
-        <div class="tab-content" id="tab-eyes" style="display:none">
-            <input type="color" id="eyes-color">
-            <div class="part-previews" id="eyes-previews"></div>
-        </div>
+		<!-- Eyebrows -->
+		<div class="tab-content" id="tab-eyebrows" style="display:none">
+			<input type="color" id="eyebrows-color">
+			<div class="part-previews" id="eyebrows-previews"></div>
+		</div>
 
-        <!-- Nose -->
-        <div class="tab-content" id="tab-nose" style="display:none">
-            <input type="color" id="nose-color">
-            <div class="part-previews" id="nose-previews"></div>
-        </div>
+		<!-- Eyes -->
+		<div class="tab-content" id="tab-eyes" style="display:none">
+			<input type="color" id="eyes-color">
+			<div class="part-previews" id="eyes-previews"></div>
+		</div>
 
-        <!-- Mustache -->
-        <div class="tab-content" id="tab-mustache" style="display:none">
-            <input type="color" id="mustache-color">
-            <div class="part-previews" id="mustache-previews"></div>
-        </div>
+		<!-- Nose -->
+		<div class="tab-content" id="tab-nose" style="display:none">
+			<input type="color" id="nose-color">
+			<div class="part-previews" id="nose-previews"></div>
+		</div>
 
-        <!-- Mouth -->
-        <div class="tab-content" id="tab-mouth" style="display:none">
-            <input type="color" id="mouth-color">
-            <div class="part-previews" id="mouth-previews"></div>
-        </div>
+		<!-- Mustache -->
+		<div class="tab-content" id="tab-mustache" style="display:none">
+			<input type="color" id="mustache-color">
+			<div class="part-previews" id="mustache-previews"></div>
+		</div>
 
-        <!-- Beard -->
-        <div class="tab-content" id="tab-beard" style="display:none">
-            <input type="color" id="beard-color">
-            <div class="part-previews" id="beard-previews"></div>
-        </div>
+		<!-- Mouth -->
+		<div class="tab-content" id="tab-mouth" style="display:none">
+			<input type="color" id="mouth-color">
+			<div class="part-previews" id="mouth-previews"></div>
+		</div>
 
-        <!-- Accessory -->
-        <div class="tab-content" id="tab-accessory" style="display:none">
-            <input type="color" id="accessory-color">
-            <div class="part-previews" id="accessory-previews"></div>
-        </div>
+		<!-- Beard -->
+		<div class="tab-content" id="tab-beard" style="display:none">
+			<input type="color" id="beard-color">
+			<div class="part-previews" id="beard-previews"></div>
+		</div>
 
-        <button class="save-btn" id="save-pal-btn">Save Pal</button>
+		<!-- Accessory -->
+		<div class="tab-content" id="tab-accessory" style="display:none">
+			<input type="color" id="accessory-color">
+			<div class="part-previews" id="accessory-previews"></div>
+		</div>
 
-        <details>
-            <summary>Show Pal Code (JSON)</summary>
-            <code id="pal-json"></code>
-        </details>
-    </div>
-    <script type="text/javascript">
-        const pal_parts = {{ pal_parts|tojson|safe }};
-        const pal_json = {{ pal_json|tojson|safe }};
-    </script>
-    <script src="/static/pal_creator.js"></script>
+		<button class="save-btn" id="save-pal-btn">Save Pal</button>
+
+		<details>
+			<summary>Show Pal Code (JSON)</summary>
+			<code id="pal-json"></code>
+		</details>
+	</div>
+	<script type="text/javascript">
+		const pal_parts = {{ pal_parts| tojson | safe }};
+		const pal_json = {{ pal_json| tojson | safe }};
+	</script>
+	<script src="/static/pal_creator.js"></script>
 </body>
+
 </html>

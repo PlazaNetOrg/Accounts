@@ -63,9 +63,9 @@ def login():
     cookie_secure = current_app.config.get('JWT_COOKIE_SECURE')
     cookie_samesite = current_app.config.get('JWT_COOKIE_SAMESITE')
     set_access_cookies(resp, access_token)
-    resp.set_cookie(current_app.config['JWT_ACCESS_COOKIE_NAME'], access_token, domain=cookie_domain, secure=cookie_secure, httponly=True, samesite=cookie_samesite)
+    resp.set_cookie(current_app.config['JWT_ACCESS_COOKIE_NAME'], access_token, domain=cookie_domain, secure=False, httponly=True, samesite=cookie_samesite)
     set_refresh_cookies(resp, refresh_token)
-    resp.set_cookie(current_app.config['JWT_REFRESH_COOKIE_NAME'], refresh_token, domain=cookie_domain, secure=cookie_secure, httponly=True, samesite=cookie_samesite)
+    resp.set_cookie(current_app.config['JWT_REFRESH_COOKIE_NAME'], refresh_token, domain=cookie_domain, secure=False, httponly=True, samesite=cookie_samesite)
     return resp, 200
 
 @bp.route('/refresh', methods=['POST'])

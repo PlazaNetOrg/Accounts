@@ -1,57 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Login</title>
-  <link rel="stylesheet" href="/static/style.css">
+	<title>Login</title>
+	<link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-  <div class="container">
-    <h2>Login</h2>
-  <p class="error">{% if error %}{{ error }}{% endif %}</p>
-  <form id="loginForm">
-      <input type="text" name="username" placeholder="Username" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
-    <script>
-      document.getElementById('loginForm').onsubmit = async function(e) {
-        e.preventDefault();
-        const form = e.target;
-        const username = form.username.value;
-        const password = form.password.value;
-        let res;
-        try {
-          res = await fetch('/auth/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({username, password})
-          });
-        } catch (err) {
-          document.querySelector('.error').textContent = 'Network error';
-          return;
-        }
+	<div class="container">
+		<h2>Login</h2>
+		<p class="error">{% if error %}{{ error }}{% endif %}</p>
+		<form id="loginForm">
+			<input type="text" name="username" placeholder="Username" required>
+			<input type="password" name="password" placeholder="Password" required>
+			<button type="submit">Login</button>
+		</form>
+		<script>
+			document.getElementById('loginForm').onsubmit = async function (e) {
+				e.preventDefault();
+				const form = e.target;
+				const username = form.username.value;
+				const password = form.password.value;
+				let res;
+				try {
+					res = await fetch('/auth/login', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						credentials: 'include',
+						body: JSON.stringify({ username, password })
+					});
+				} catch (err) {
+					document.querySelector('.error').textContent = 'Network error';
+					return;
+				}
 
-        let data = {};
-        const ct = (res.headers.get('content-type') || '').toLowerCase();
-        if (ct.includes('application/json')) {
-          try { data = await res.json() } catch (e) { data.msg = res.statusText }
-        } else {
-          try { data.msg = await res.text() } catch (e) { data.msg = res.statusText }
-        }
+				let data = {};
+				const ct = (res.headers.get('content-type') || '').toLowerCase();
+				if (ct.includes('application/json')) {
+					try { data = await res.json() } catch (e) { data.msg = res.statusText }
+				} else {
+					try { data.msg = await res.text() } catch (e) { data.msg = res.statusText }
+				}
 
-        if (res.status === 404) {
-          document.querySelector('.error').textContent = 'Username not found';
-        } else if (res.status === 401) {
-          document.querySelector('.error').textContent = 'Wrong username or password';
-        } else if (res.ok) {
-          window.location.href = '/me';
-        } else {
-          document.querySelector('.error').textContent = data.msg || res.statusText || 'Login failed';
-        }
-      };
-    </script>
-    <p>Don't have an account? <a href="{{ url_for('register_page') }}">Register</a></p>
-  </div>
+				if (res.status === 404) {
+					document.querySelector('.error').textContent = 'Username not found';
+				} else if (res.status === 401) {
+					document.querySelector('.error').textContent = 'Wrong username or password';
+				} else if (res.ok) {
+					window.location.href = '/me';
+				} else {
+					document.querySelector('.error').textContent = data.msg || res.statusText || 'Login failed';
+				}
+			};
+		</script>
+		<p>Don't have an account? <a href="{{ url_for('register_page') }}">Register</a></p>
+	</div>
 </body>
+
 </html>
