@@ -44,6 +44,21 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(api_bp)
 
+    allowed = app.config.get('PLAZANET_ALLOWED_ORIGINS') or '*'
+
+    @app.after_request
+    def add_cors_headers(response):
+        origins = [o.strip() for o in allowed.split(',')] if isinstance(allowed, str) and ',' in allowed else [allowed]
+        origin = request.headers.get('Origin')
+        if allowed == '*' or (origin and origin in origins) or (len(origins) == 1 and origins[0] == '*'):
+            response.headers['Access-Control-Allow-Origin'] = origin or '*'
+        else:
+            pass
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+        response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
+        return response
+
     @app.route("/")
     def index():
         return redirect(url_for("me_page")) if request.cookies.get("access_token") else redirect(url_for("login_page"))
