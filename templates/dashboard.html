@@ -1,0 +1,82 @@
+{{ define "dashboard" }}
+<div class="bg-plaza-surface rounded-2xl p-8 shadow-lg">
+  <h2 class="text-3xl font-bold text-plaza-primary mb-6">
+    Welcome back, <span class="text-plaza-secondary">{{ .DisplayName }}</span>!
+  </h2>
+
+  <div class="space-y-6">
+    <div class="bg-plaza-surface rounded-2xl p-8 flex items-center justify-center min-h-[200px]">
+      <div id="pal-preview" class="relative w-32 h-32 bg-gray-700 rounded-full
+              flex items-center justify-center text-3xl">
+        👤
+
+        <a href="/pal-editor" class="absolute -bottom-2 -right-2
+                bg-plaza-primary hover:bg-plaza-secondary
+                text-white text-xs font-medium px-3 py-1 rounded-full
+                shadow-lg transition">
+          Edit
+        </a>
+      </div>
+    </div>
+    <p class="mt-8 text-center text-plaza-text-muted">
+      Placeholder — 3D preview coming soon&trade;
+    </p>
+
+    <div class="p-6 bg-plaza-dark rounded-xl">
+      <h3 class="text-xl font-semibold mb-2">Your Status</h3>
+      <p class="text-status-online">
+        Online &#128900; Not playing anything yet
+      </p>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Friends -->
+      <div class="p-6 bg-plaza-dark rounded-xl w-full md:w-1/2">
+        <h3 class="text-xl font-semibold mb-2">Friends</h3>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-status-offline">
+            <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">
+              👤
+            </div>
+            <span>Friend 1 &#128900; Offline</span>
+          </li>
+
+          <li class="flex items-center gap-3 text-status-online">
+            <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">
+              👤
+            </div>
+            <span>Friend 2 &#128900; Online</span>
+          </li>
+
+          <li class="flex items-center gap-3 text-status-playing">
+            <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">
+              👤
+            </div>
+            <span>Friend 3 &#128900; Playing (GameName)</span>
+          </li>
+        </ul>
+        <a href="/friends" class="text-plaza-secondary hover:text-plaza-primary">
+          View friends (coming soon) &#8594;
+        </a>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="p-6 bg-plaza-dark rounded-xl w-full md:w-1/2">
+        <h3 class="text-xl font-semibold mb-2">Quick Links</h3>
+        <ul class="space-y-3">
+          <li>
+            <a href="{{ .PlazaNetURL }}" class="text-plaza-secondary hover:text-plaza-primary ">
+              Go to {{ .PlazaNetName }} &#8594;
+            </a>
+          </li>
+          <li>
+            <a href="/setup/recommendations" class="text-plaza-secondary hover:text-plaza-primary">
+              Recommendations &#8594;
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}

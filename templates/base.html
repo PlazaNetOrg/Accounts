@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" class="bg-plaza-dark text-plaza-text">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ .ServerName }} - {{ .Title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.8"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "plaza-primary": "#3A9FF1",
+            "plaza-secondary": "#64B7FF",
+            "plaza-dark": "#0F172A",
+            "plaza-surface": "#1E293B",
+            "plaza-text": "#F1F5F9",
+            "plaza-text-muted": "#94A3B8",
+
+            "status-offline": "#64748B",
+            "status-online": "#3A9FF1",
+            "status-playing": "#22C55E",
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="min-h-screen bg-plaza-dark antialiased">
+  <header class="bg-plaza-surface border-b border-gray-700">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="flex items-center gap-3 text-2xl font-bold">
+        <img src="/static/logo.svg" alt="{{ .ServerName }} logo" class="h-12 w-12" />
+        <span class="text-plaza-primary">{{ .ServerName }}</span>
+      </h1>
+      {{ if .IsAuthenticated }}
+      <div class="flex items-center gap-4">
+        <span class="text-plaza-text-muted">{{ .DisplayName }}</span>
+        <a href="/logout" class="text-plaza-secondary hover:text-plaza-primary">Logout</a>
+      </div>
+      {{ else }}
+      <div class="flex gap-4">
+        <a href="/login" class="text-plaza-secondary hover:text-plaza-primary">Login</a>
+        <a href="/register" class="text-plaza-primary hover:underline">Register</a>
+      </div>
+      {{ end }}
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8">
+    <!-- Temporary solution -->
+    {{ if eq .Page "login" }}{{ template "login" . }}{{ end }}
+    {{ if eq .Page "register" }}{{ template "register" . }}{{ end }}
+    {{ if eq .Page "dashboard" }}{{ template "dashboard" . }}{{ end }}
+    {{ if eq .Page "pal-editor" }}{{ template "pal-editor" . }}{{ end }}
+    {{ if eq .Page "setup-display-name" }}{{ template "setup-display-name" . }}{{ end }}
+    {{ if eq .Page "setup-recommendations" }}{{ template "setup-recommendations" . }}{{ end }}
+  </main>
+
+  <footer class="text-center py-6 text-plaza-text-muted text-sm border-t border-gray-700 mt-auto">
+    {{ .PlazaNetName }} &#128900; 2026
+  </footer>
+</body>
+
+</html>

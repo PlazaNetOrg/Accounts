@@ -1,0 +1,106 @@
+{{ define "setup-recommendations" }}
+<div class="max-w-4xl mx-auto">
+  <h2 class="text-3xl font-bold text-plaza-primary mb-2">What's Next?</h2>
+  <p class="text-plaza-text-muted mb-6">
+    {{ .DisplayName }}, here are some recommended things you can do now!
+  </p>
+
+  <div class="bg-plaza-surface rounded-xl p-6 mb-6">
+    <div class="flex items-center gap-3 mb-4 opacity-50">
+      <div class="w-8 h-8 rounded-full bg-gray-600 text-white flex items-center justify-center font-bold">
+        ✓
+      </div>
+      <span class="text-plaza-text-muted">Set Display Name</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-plaza-primary text-white flex items-center justify-center font-bold">
+        2
+      </div>
+      <span class="text-plaza-text">Next Steps</span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 justify-items-center">
+    <!-- Create Your Pal -->
+    <div
+      class="bg-plaza-surface rounded-xl p-6 border border-gray-700 hover:border-plaza-primary transition w-full max-w-sm">
+      <div class="flex items-center gap-3 mb-4">
+        <div
+          class="w-10 h-10 rounded-lg bg-plaza-primary/20 text-plaza-primary flex items-center justify-center text-lg">
+          🎨
+        </div>
+        <h3 class="text-lg font-semibold text-plaza-text">Create Your Pal</h3>
+      </div>
+      <p class="text-plaza-text-muted text-sm mb-4">
+        Design and customize your unique Pal character. Express yourself through
+        your avatar!
+      </p>
+      <a href="/pal-editor"
+        class="inline-block bg-plaza-primary hover:bg-plaza-secondary text-white font-medium py-2 px-4 rounded-lg transition text-sm">
+        Go to Pal Editor &#8594;
+      </a>
+    </div>
+
+    <!-- Explore PlazaNet -->
+    {{ if .PlazaNetEnabled }}
+    <div
+      class="bg-plaza-surface rounded-xl p-6 border border-gray-700 hover:border-plaza-primary transition w-full max-w-sm">
+      <div class="flex items-center gap-3 mb-4">
+        <div
+          class="w-10 h-10 rounded-lg bg-plaza-primary/20 text-plaza-primary flex items-center justify-center text-lg">
+          🌐
+        </div>
+        <h3 class="text-lg font-semibold text-plaza-text">
+          Explore {{ .PlazaNetName }}
+        </h3>
+      </div>
+      <p class="text-plaza-text-muted text-sm mb-4">
+        Connect with other players and explore the {{ .PlazaNetName }}
+        community. Discover new friends and experiences!
+      </p>
+      <a href="{{ .PlazaNetURL }}"
+        class="inline-block bg-plaza-primary hover:bg-plaza-secondary text-white font-medium py-2 px-4 rounded-lg transition text-sm">
+        Visit PlazaNet &#8594;
+      </a>
+    </div>
+    {{ end }}
+
+    <!-- Download GamePlaza -->
+    {{ if .GamePlazaEnabled }}
+    <div
+      class="bg-plaza-surface rounded-xl p-6 border border-gray-700 hover:border-plaza-primary transition w-full max-w-sm">
+      <div class="flex items-center gap-3 mb-4">
+        <div
+          class="w-10 h-10 rounded-lg bg-plaza-primary/20 text-plaza-primary flex items-center justify-center text-lg">
+          📥
+        </div>
+        <h3 class="text-lg font-semibold text-plaza-text">
+          Download GamePlaza
+        </h3>
+      </div>
+      <p class="text-plaza-text-muted text-sm mb-4">
+        A modern console-style game launcher that brings all your games together, with
+        optional {{ .PlazaNetName }} integration.
+      </p>
+      <a href="https://plazanet.org/gameplaza"
+        class="inline-block bg-plaza-primary hover:bg-plaza-secondary text-white font-medium py-2 px-4 rounded-lg transition text-sm">
+        Download Now &#8594;
+      </a>
+    </div>
+    {{ end }}
+  </div>
+
+  <div class="bg-plaza-surface rounded-xl p-6 border border-plaza-primary/20">
+    <p class="text-plaza-text-muted mb-4">
+      Ready to skip ahead? You can always come back to these later from your
+      dashboard.
+    </p>
+    <form hx-post="/api/setup/recommendations" hx-target="body" hx-swap="none">
+      <button type="submit"
+        class="w-full bg-plaza-primary hover:bg-plaza-secondary text-white font-medium py-3 px-6 rounded-xl transition">
+        Go to Dashboard &#8594;
+      </button>
+    </form>
+  </div>
+</div>
+{{ end }}

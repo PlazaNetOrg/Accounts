@@ -1,0 +1,179 @@
+package handlers
+
+import (
+	"net/http"
+	"os"
+	"strings"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
+	"golang.org/x/crypto/bcrypt"
+
+	"plazanet-accounts/internal/db"
+	"plazanet-accounts/internal/models"
+)
+
+const (
+	TokenExpirationTime = 24 * time.Hour
+	CookieMaxAge        = 86400
+	CookieName          = "auth_token"
+)
+
+type RegisterInput struct {
+	Username string `form:"username" binding:"required,min=3,max=20"`
+	Password string `form:"password" binding:"required,min=6"`
+}
+
+type LoginInput struct {
+	Username string `form:"username" binding:"required"`
+	Password string `form:"password" binding:"required"`
+}
+
+func ApiRegister(c *gin.Context) {
+	var input RegisterInput
+	if err := c.ShouldBind(&input); err != nil {
+		c.HTML(http.StatusBadRequest, "partials/form-error", gin.H{
+			"Message": "Validation failed: " + err.Error(),
+		})
+		return
+	}
+
+	// Convert username to lowercase
+	username := strings.ToLower(input.Username)
+
+	var existing models.User
+	if err := db.DB.Where("username = ?", username).First(&existing).Error; err == nil {
+		c.JSON(http.StatusConflict, gin.H{"error": "Username already taken"})
+		return
+	}
+
+	hashed, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		return
+	}
+
+	user := models.User{
+		Username:    username,
+		Password:    string(hashed),
+		SetupStatus: "not_started",
+	}
+
+	if err := db.DB.Create(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		return
+	}
+
+	tokenString, err := generateToken(user.ID, user.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
+	setAuthCookie(c, tokenString)
+
+	if c.GetHeader("HX-Request") != "" || strings.Contains(c.GetHeader("Accept"), "text/html") {
+		c.Header("HX-Redirect", "/setup/display-name")
+		c.Status(http.StatusOK)
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message":  "User created successfully",
+		"username": user.Username,
+		"token":    tokenString,
+	})
+}
+
+func ApiLogin(c *gin.Context) {
+	var input LoginInput
+	if err := c.ShouldBind(&input); err != nil {
+		c.HTML(http.StatusBadRequest, "partials/form-error", gin.H{
+			"Message": "Validation failed: " + err.Error(),
+		})
+		return
+	}
+
+	// Convert username to lowercase
+	username := strings.ToLower(input.Username)
+
+	var user models.User
+	if err := db.DB.Where("username = ?", username).First(&user).Error; err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
+		return
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
+		return
+	}
+
+	tokenString, err := generateToken(user.ID, user.Username)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
+	setAuthCookie(c, tokenString)
+
+	var setupRedirect string
+	switch user.SetupStatus {
+	case "not_started":
+		setupRedirect = "/setup/display-name"
+	case "display_name_set":
+		setupRedirect = "/setup/recommendations"
+	case "completed":
+		setupRedirect = "/dashboard"
+	default:
+		setupRedirect = "/setup/display-name"
+	}
+
+	if c.GetHeader("HX-Request") != "" || strings.Contains(c.GetHeader("Accept"), "text/html") {
+		c.Header("HX-Redirect", setupRedirect)
+		c.Status(http.StatusOK)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"token":    tokenString,
+		"username": user.Username,
+	})
+}
+
+func Logout(c *gin.Context) {
+	c.SetCookie("auth_token", "", -1, "/", "", false, true)
+	c.Redirect(http.StatusSeeOther, "/login")
+}
+
+func Me(c *gin.Context) {
+	userID := c.GetUint("user_id")
+	username := c.GetString("username")
+
+	c.JSON(http.StatusOK, gin.H{
+		"id":       userID,
+		"username": username,
+	})
+}
+
+func setAuthCookie(c *gin.Context, token string) {
+	c.SetCookie(
+		CookieName,
+		token,
+		CookieMaxAge,
+		"/",
+		"",
+		false,
+		true,
+	)
+}
+
+func generateToken(userID uint, username string) (string, error) {
+	claims := jwt.MapClaims{
+		"user_id":  userID,
+		"username": username,
+		"exp":      time.Now().Add(TokenExpirationTime).Unix(),
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+}

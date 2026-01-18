@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="300mm"
+   height="200mm"
+   viewBox="0 0 300 200"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1">
+    <g
+       id="g12"
+       transform="translate(0,-49.999999)">
+      <path
+         id="path1"
+         style="fill:#3a9ff1;fill-opacity:1;stroke:none;stroke-width:1.05813"
+         d="M 171.31265,68.257468 A 60,60 0 0 0 114.20606,109.85028 40,40 0 0 0 86.645986,98.840611 40,40 0 0 0 46.645844,138.84076 a 40,40 0 0 0 1.191659,9.69191 40,42.646553 0 0 0 -27.649992,40.5629 40,42.646553 0 0 0 35.201985,42.33902 v 0.0408 h 0.329696 a 40,42.646553 0 0 0 4.468461,0.26717 40,42.646553 0 0 0 4.467944,-0.26717 H 235.5201 v -0.015 a 45,45 0 0 0 44.29239,-44.99466 45,45 0 0 0 -44.99984,-44.99984 45,45 0 0 0 -5.03638,0.28267 60,60 0 0 0 1.53634,-13.49117 60,60 0 0 0 -59.99996,-59.999952 z" />
+      <circle
+         style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+         id="circle6"
+         cx="81.208321"
+         cy="134.12498"
+         r="15" />
+      <circle
+         style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+         id="circle7"
+         cx="101.84581"
+         cy="153.70404"
+         r="7" />
+      <circle
+         style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+         id="circle9"
+         cx="224.0834"
+         cy="187.0417"
+         r="25" />
+      <circle
+         style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+         id="circle11"
+         cx="208.20839"
+         cy="144.70833"
+         r="12" />
+      <circle
+         style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+         id="circle12"
+         cx="147.88336"
+         cy="104.49163"
+         r="15" />
+      <g
+         id="g2"
+         transform="translate(0.02647781,-0.62084563)">
+        <circle
+           style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+           id="circle1"
+           cx="150"
+           cy="150"
+           r="25" />
+        <ellipse
+           style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+           id="circle2"
+           cx="150"
+           cy="202.91672"
+           rx="47.365593"
+           ry="25" />
+        <rect
+           style="fill:#64b7ff;stroke-width:1.05833"
+           id="rect2"
+           width="94.777489"
+           height="26.846529"
+           x="102.58145"
+           y="202.31183"
+           ry="2.9281209" />
+      </g>
+      <circle
+         style="fill:#64b7ff;fill-opacity:1;stroke:none;stroke-width:1.05833"
+         id="circle3"
+         cx="75.916656"
+         cy="187.0417"
+         r="12" />
+    </g>
+  </g>
+</svg>
