@@ -11,13 +11,13 @@ import (
 )
 
 func ShowLoginPage(c *gin.Context) {
-	renderPage(c, "login", "Login", gin.H{
+	renderPage(c, "login", "page_title.login", gin.H{
 		"IsAuthenticated": false,
 	})
 }
 
 func ShowRegisterPage(c *gin.Context) {
-	renderPage(c, "register", "Register", gin.H{
+	renderPage(c, "register", "page_title.register", gin.H{
 		"IsAuthenticated": false,
 	})
 }
@@ -31,7 +31,7 @@ func ShowDashboard(c *gin.Context) {
 		return
 	}
 
-	renderPage(c, "dashboard", "Dashboard", gin.H{
+	renderPage(c, "dashboard", "page_title.dashboard", gin.H{
 		"IsAuthenticated": true,
 		"DisplayName":     user.DisplayName,
 		"PlazaNetURL":     config.Cfg.PlazaNetURL,
@@ -39,7 +39,7 @@ func ShowDashboard(c *gin.Context) {
 }
 
 func ShowPalEditor(c *gin.Context) {
-	renderPage(c, "pal-editor", "Pal Editor", gin.H{
+	renderPage(c, "pal-editor", "page_title.pal_editor", gin.H{
 		"IsAuthenticated": true,
 	})
 }
@@ -53,7 +53,7 @@ func ShowSetupDisplayName(c *gin.Context) {
 		return
 	}
 
-	renderPage(c, "setup-display-name", "Set Display Name", gin.H{
+	renderPage(c, "setup-display-name", "page_title.setup_display_name", gin.H{
 		"IsAuthenticated": true,
 		"Username":        user.Username,
 	})
@@ -68,7 +68,7 @@ func ShowSetupRecommendations(c *gin.Context) {
 		return
 	}
 
-	renderPage(c, "setup-recommendations", "What's Next?", gin.H{
+	renderPage(c, "setup-recommendations", "page_title.setup_recommendations", gin.H{
 		"IsAuthenticated":  true,
 		"DisplayName":      user.DisplayName,
 		"PlazaNetName":     config.Cfg.PlazaNetName,

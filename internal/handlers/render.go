@@ -7,7 +7,7 @@ import (
 	"plazanet-accounts/internal/config"
 )
 
-func renderPage(c *gin.Context, page string, title string, data gin.H) {
+func renderPage(c *gin.Context, page string, titleKey string, data gin.H) {
 	if data == nil {
 		data = gin.H{}
 	}
@@ -18,7 +18,7 @@ func renderPage(c *gin.Context, page string, title string, data gin.H) {
 	}
 
 	data["Lang"] = lang
-	data["Title"] = title
+	data["TitleKey"] = titleKey
 	data["Page"] = page
 	data["ServerName"] = config.Cfg.ServerName
 	data["PlazaNetName"] = config.Cfg.PlazaNetName

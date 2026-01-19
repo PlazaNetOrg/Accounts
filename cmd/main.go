@@ -48,21 +48,16 @@ func main() {
     // ====================
 	r.StaticFile("/favicon.ico", "./favicon.ico")
 
-    r.GET("/", func(c *gin.Context) {
-        if _, exists := c.Get("user_id"); exists {
-            c.Redirect(http.StatusFound, "/dashboard")
-        } else {
-            c.Redirect(http.StatusFound, "/login")
-        }
-    })
-
     r.GET("/login", handlers.ShowLoginPage)
     r.GET("/register", handlers.ShowRegisterPage)
 
     // Protected UI routes
     protectedUI := r.Group("/")
-    protectedUI.Use(middleware.AuthRequired())
+    protectedUI.Use(middleware.AuthRequiredUI())
     {
+        protectedUI.GET("/", func(c *gin.Context) {
+            c.Redirect(http.StatusFound, "/dashboard")
+        })
         protectedUI.GET("/dashboard", middleware.SetupRequired(), handlers.ShowDashboard)
         protectedUI.GET("/pal-editor", middleware.SetupRequired(), handlers.ShowPalEditor)
         protectedUI.GET("/logout", handlers.Logout)

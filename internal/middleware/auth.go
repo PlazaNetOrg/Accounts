@@ -76,6 +76,76 @@ func AuthRequired() gin.HandlerFunc {
 	}
 }
 
+func AuthRequiredUI() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var tokenStr string
+		
+		authHeader := c.GetHeader("Authorization")
+		if authHeader != "" {
+			tokenStr = strings.TrimPrefix(authHeader, "Bearer ")
+			if tokenStr == authHeader {
+				c.Redirect(http.StatusFound, "/login")
+				c.Abort()
+				return
+			}
+		} else {
+			var err error
+			tokenStr, err = c.Cookie("auth_token")
+			if err != nil {
+				c.Redirect(http.StatusFound, "/login")
+				c.Abort()
+				return
+			}
+		}
+
+		token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, jwt.ErrSignatureInvalid
+			}
+			return []byte(os.Getenv("JWT_SECRET")), nil
+		})
+
+		if err != nil || !token.Valid {
+			c.Redirect(http.StatusFound, "/login")
+			c.Abort()
+			return
+		}
+
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok {
+			c.Redirect(http.StatusFound, "/login")
+			c.Abort()
+			return
+		}
+
+		userID, ok := claims["user_id"].(float64)
+		if !ok {
+			c.Redirect(http.StatusFound, "/login")
+			c.Abort()
+			return
+		}
+
+		username, ok := claims["username"].(string)
+		if !ok {
+			c.Redirect(http.StatusFound, "/login")
+			c.Abort()
+			return
+		}
+
+		var user models.User
+		if err := db.DB.Select("language").Where("id = ?", uint(userID)).First(&user).Error; err != nil {
+			log.Printf("[AUTH] Failed to fetch user language: %v", err)
+			user.Language = "en"
+		}
+
+		c.Set("user_id", uint(userID))
+		c.Set("username", username)
+		c.Set("language", user.Language)
+		log.Printf("[AUTH] Set context - user_id: %d, username: %s, language: %s", uint(userID), username, user.Language)
+		c.Next()
+	}
+}
+
 func SetDefaultLanguage() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if _, exists := c.Get("language"); !exists {

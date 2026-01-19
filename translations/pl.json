@@ -43,6 +43,10 @@
     "description": "Register button text",
     "other": "Zarejestruj się"
   },
+  "page_title.login": {
+    "description": "Login page browser title",
+    "other": "Zaloguj się"
+  },
   "login.title": {
     "description": "Login page heading",
     "other": "Zaloguj się"
@@ -55,6 +59,10 @@
     "description": "Link to register page",
     "other": "Zarejestruj się"
   },
+  "page_title.register": {
+    "description": "Register page browser title",
+    "other": "Utwórz konto"
+  },
   "register.title": {
     "description": "Register page heading",
     "other": "Utwórz konto"
@@ -66,6 +74,10 @@
   "register.login_link": {
     "description": "Link to login page",
     "other": "Zaloguj się"
+  },
+  "page_title.dashboard": {
+    "description": "Dashboard page browser title",
+    "other": "Panel sterowania"
   },
   "dashboard.welcome": {
     "description": "Welcome message on dashboard",
@@ -115,6 +127,10 @@
     "description": "Recommendations link",
     "other": "Rekomendacje"
   },
+  "page_title.pal_editor": {
+    "description": "Pal editor page browser title",
+    "other": "Edytuj swojego Pala"
+  },
   "pal_editor.title": {
     "description": "Pal editor page title",
     "other": "Edytuj swojego Pala"
@@ -122,6 +138,10 @@
   "pal_editor.preview_placeholder": {
     "description": "3D preview placeholder text",
     "other": "Podgląd 3D w Three.js już wkrótce™ – na razie to tylko placeholder."
+  },
+  "page_title.setup_display_name": {
+    "description": "Setup display name page browser title",
+    "other": "Ustaw nazwę wyświetlaną"
   },
   "setup.display_name.welcome": {
     "description": "Welcome message on setup page",
@@ -154,6 +174,10 @@
   "setup.display_name.submit": {
     "description": "Continue button on setup page",
     "other": "Kontynuuj do kolejnych kroków"
+  },
+  "page_title.setup_recommendations": {
+    "description": "Setup recommendations page browser title",
+    "other": "Co dalej?"
   },
   "setup.recommendations.title": {
     "description": "Setup recommendations page title",
