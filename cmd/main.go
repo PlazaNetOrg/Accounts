@@ -12,11 +12,13 @@ import (
 	"plazanet-accounts/internal/config"
 	"plazanet-accounts/internal/db"
 	"plazanet-accounts/internal/handlers"
+	"plazanet-accounts/internal/i18n"
 	"plazanet-accounts/internal/middleware"
 )
 
 func main() {
 	cfg := config.Load()
+	i18n.Init()
 
 	db.Connect()
 
@@ -30,8 +32,16 @@ func main() {
 	}
 	log.Printf("Loaded templates: %v", files)
 
-	r.SetHTMLTemplate(template.Must(template.ParseGlob("templates/*.html")))
+	tmpl := template.New("").Funcs(template.FuncMap{
+		"T": func(lang, id string) string {
+			return i18n.Get(lang, id)
+		},
+	})
+	tmpl = template.Must(tmpl.ParseGlob("templates/*.html"))
+	r.SetHTMLTemplate(tmpl)
 	r.Static("/static", "./static")
+
+	r.Use(middleware.SetDefaultLanguage())
 
 	// ====================
     //  UI routes

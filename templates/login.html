@@ -1,30 +1,30 @@
 {{ define "login" }}
 <div class="max-w-md mx-auto">
-  <h2 class="text-3xl font-bold text-plaza-primary mb-6">Sign In</h2>
+  <h2 class="text-3xl font-bold text-plaza-primary mb-6">{{ T .Lang "login.title" }}</h2>
 
   <form hx-post="/api/login" hx-target="#form-result" hx-swap="innerHTML" hx-include="this" class="space-y-5">
     <div>
-      <label class="block text-sm mb-1">Username</label>
+      <label class="block text-sm mb-1">{{ T .Lang "auth.username_label" }}</label>
       <input type="text" name="username" required
         class="w-full px-4 py-3 bg-plaza-surface border border-gray-600 rounded-xl focus:outline-none focus:border-plaza-primary">
     </div>
 
     <div>
-      <label class="block text-sm mb-1">Password</label>
+      <label class="block text-sm mb-1">{{ T .Lang "auth.password_label" }}</label>
       <input type="password" name="password" required
         class="w-full px-4 py-3 bg-plaza-surface border border-gray-600 rounded-xl focus:outline-none focus:border-plaza-primary">
     </div>
 
     <button type="submit"
       class="w-full bg-plaza-primary hover:bg-plaza-secondary text-white font-medium py-3 px-6 rounded-xl transition">
-      Login &#8594;
+      {{ T .Lang "auth.submit_login" }} &#8594;
     </button>
   </form>
 
   <div id="form-result" class="mt-4"></div>
 
   <p class="mt-6 text-center text-plaza-text-muted">
-    No account yet? <a href="/register" class="text-plaza-secondary hover:underline">Register &#8594;</a>
+    {{ T .Lang "login.no_account" }} <a href="/register" class="text-plaza-secondary hover:underline">{{ T .Lang "login.register_link" }} &#8594;</a>
   </p>
 </div>
 {{ end }}

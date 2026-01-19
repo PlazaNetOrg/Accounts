@@ -39,12 +39,12 @@
       {{ if .IsAuthenticated }}
       <div class="flex items-center gap-4">
         <span class="text-plaza-text-muted">{{ .DisplayName }}</span>
-        <a href="/logout" class="text-plaza-secondary hover:text-plaza-primary">Logout</a>
+        <a href="/logout" class="text-plaza-secondary hover:text-plaza-primary">{{ T .Lang "header.logout" }}</a>
       </div>
       {{ else }}
       <div class="flex gap-4">
-        <a href="/login" class="text-plaza-secondary hover:text-plaza-primary">Login</a>
-        <a href="/register" class="text-plaza-primary hover:underline">Register</a>
+        <a href="/login" class="text-plaza-secondary hover:text-plaza-primary">{{ T .Lang "header.login" }}</a>
+        <a href="/register" class="text-plaza-primary hover:underline">{{ T .Lang "header.register" }}</a>
       </div>
       {{ end }}
     </div>

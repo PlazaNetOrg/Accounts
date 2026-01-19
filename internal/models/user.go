@@ -13,6 +13,7 @@ type User struct {
 	UpdatedAt   time.Time
 	Status      string    `gorm:"default:'offline'"`
 	SetupStatus string    `gorm:"default:'not_started'"`
+	Language    string    `gorm:"default:'en'"`
 
 	Pal       Pal       `gorm:"embedded;embeddedPrefix:pal_"`
 }

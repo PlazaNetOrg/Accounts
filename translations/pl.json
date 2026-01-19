@@ -1,0 +1,218 @@
+{
+  "common.welcome": {
+    "description": "Generic welcome message",
+    "other": "Witaj"
+  },
+  "common.next_steps": {
+    "description": "Next steps label",
+    "other": "Kolejne kroki"
+  },
+  "common.continue_button": {
+    "description": "Continue button text",
+    "other": "Kontynuuj"
+  },
+  "common.edit": {
+    "description": "Edit button text",
+    "other": "Edytuj"
+  },
+  "header.logout": {
+    "description": "Logout link in header",
+    "other": "Wyloguj się"
+  },
+  "header.login": {
+    "description": "Login link in header",
+    "other": "Zaloguj się"
+  },
+  "header.register": {
+    "description": "Register link in header",
+    "other": "Zarejestruj się"
+  },
+  "auth.username_label": {
+    "description": "Username input label",
+    "other": "Nazwa użytkownika"
+  },
+  "auth.password_label": {
+    "description": "Password input label",
+    "other": "Hasło"
+  },
+  "auth.submit_login": {
+    "description": "Login button text",
+    "other": "Zaloguj się"
+  },
+  "auth.submit_register": {
+    "description": "Register button text",
+    "other": "Zarejestruj się"
+  },
+  "login.title": {
+    "description": "Login page heading",
+    "other": "Zaloguj się"
+  },
+  "login.no_account": {
+    "description": "Text asking if user has no account",
+    "other": "Nie masz jeszcze konta?"
+  },
+  "login.register_link": {
+    "description": "Link to register page",
+    "other": "Zarejestruj się"
+  },
+  "register.title": {
+    "description": "Register page heading",
+    "other": "Utwórz konto"
+  },
+  "register.already_account": {
+    "description": "Text for users with existing account",
+    "other": "Masz już konto?"
+  },
+  "register.login_link": {
+    "description": "Link to login page",
+    "other": "Zaloguj się"
+  },
+  "dashboard.welcome": {
+    "description": "Welcome message on dashboard",
+    "other": "Witaj ponownie,"
+  },
+  "dashboard.pal_edit_button": {
+    "description": "Edit button on pal preview",
+    "other": "Edytuj"
+  },
+  "dashboard.pal_preview_placeholder": {
+    "description": "Placeholder text for 3D preview",
+    "other": "Placeholder — podgląd 3D już wkrótce™"
+  },
+  "dashboard.status_title": {
+    "description": "Your Status section title",
+    "other": "Twój status"
+  },
+  "dashboard.status_offline": {
+    "description": "Friend offline status",
+    "other": "Offline"
+  },
+  "dashboard.status_online": {
+    "description": "Friend online status",
+    "other": "Online"
+  },
+  "dashboard.status_playing": {
+    "description": "Friend playing status",
+    "other": "Gra w"
+  },
+  "dashboard.friends_title": {
+    "description": "Friends section title",
+    "other": "Znajomi"
+  },
+  "dashboard.friends_view_link": {
+    "description": "View friends link",
+    "other": "Pokaż znajomych (wkrótce dostępne)"
+  },
+  "dashboard.quick_links_title": {
+    "description": "Quick Links section title",
+    "other": "Szybkie linki"
+  },
+  "dashboard.goto_plazanet": {
+    "description": "Go to PlazaNet link text",
+    "other": "Przejdź do"
+  },
+  "dashboard.recommendations_link": {
+    "description": "Recommendations link",
+    "other": "Rekomendacje"
+  },
+  "pal_editor.title": {
+    "description": "Pal editor page title",
+    "other": "Edytuj swojego Pala"
+  },
+  "pal_editor.preview_placeholder": {
+    "description": "3D preview placeholder text",
+    "other": "Podgląd 3D w Three.js już wkrótce™ – na razie to tylko placeholder."
+  },
+  "setup.display_name.welcome": {
+    "description": "Welcome message on setup page",
+    "other": "Witaj,"
+  },
+  "setup.display_name.subtitle": {
+    "description": "Setup page subtitle",
+    "other": "Skonfigurujmy Twoje konto"
+  },
+  "setup.display_name.step1": {
+    "description": "Step 1 label",
+    "other": "Ustaw nazwę wyświetlaną"
+  },
+  "setup.display_name.step2": {
+    "description": "Step 2 label",
+    "other": "Kolejne kroki"
+  },
+  "setup.display_name.label": {
+    "description": "Display name input label",
+    "other": "Nazwa wyświetlana"
+  },
+  "setup.display_name.help_text": {
+    "description": "Help text for display name",
+    "other": "Tak właśnie będziesz widoczny/a dla innych użytkowników na PlazaNet."
+  },
+  "setup.display_name.placeholder": {
+    "description": "Placeholder for display name input",
+    "other": "Wpisz swoją nazwę wyświetlaną"
+  },
+  "setup.display_name.submit": {
+    "description": "Continue button on setup page",
+    "other": "Kontynuuj do kolejnych kroków"
+  },
+  "setup.recommendations.title": {
+    "description": "Setup recommendations page title",
+    "other": "Co dalej?"
+  },
+  "setup.recommendations.subtitle": {
+    "description": "Setup recommendations page subtitle",
+    "other": "{.DisplayName}, oto kilka rzeczy, które możesz zrobić teraz!"
+  },
+  "setup.recommendations.step1_completed": {
+    "description": "Step 1 completed label",
+    "other": "Ustawiono nazwę wyświetlaną"
+  },
+  "setup.recommendations.step2": {
+    "description": "Step 2 label",
+    "other": "Kolejne kroki"
+  },
+  "setup.recommendations.create_pal_title": {
+    "description": "Create Your Pal card title",
+    "other": "Stwórz swojego Pala"
+  },
+  "setup.recommendations.create_pal_description": {
+    "description": "Create Your Pal card description",
+    "other": "Zaprojektuj i spersonalizuj swoją unikalną postać Pala. Wyraź siebie przez awatara!"
+  },
+  "setup.recommendations.create_pal_button": {
+    "description": "Go to Pal Editor button",
+    "other": "Przejdź do edytora Pala"
+  },
+  "setup.recommendations.explore_title": {
+    "description": "Explore PlazaNet card title",
+    "other": "Poznaj {.PlazaNetName}"
+  },
+  "setup.recommendations.explore_description": {
+    "description": "Explore PlazaNet card description",
+    "other": "Poznaj innych graczy i społeczność {.PlazaNetName}. Znajdź nowych znajomych i przeżycia!"
+  },
+  "setup.recommendations.explore_button": {
+    "description": "Visit PlazaNet button",
+    "other": "Odwiedź PlazaNet"
+  },
+  "setup.recommendations.download_title": {
+    "description": "Download GamePlaza card title",
+    "other": "Pobierz GamePlaza"
+  },
+  "setup.recommendations.download_description": {
+    "description": "Download GamePlaza card description",
+    "other": "Nowoczesny launcher w stylu konsolowym, który łączy wszystkie Twoje gry – z opcjonalną integracją z {.PlazaNetName}."
+  },
+  "setup.recommendations.download_button": {
+    "description": "Download Now button",
+    "other": "Pobierz teraz"
+  },
+  "setup.recommendations.skip_message": {
+    "description": "Message about skipping ahead",
+    "other": "Chcesz pominąć? Zawsze możesz wrócić do tych opcji później z poziomu dashboardu."
+  },
+  "setup.recommendations.skip_button": {
+    "description": "Go to Dashboard button",
+    "other": "Przejdź do dashboardu"
+  }
+}
