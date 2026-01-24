@@ -60,6 +60,7 @@ func main() {
         })
         protectedUI.GET("/dashboard", middleware.SetupRequired(), handlers.ShowDashboard)
         protectedUI.GET("/pal-editor", middleware.SetupRequired(), handlers.ShowPalEditor)
+        protectedUI.GET("/settings", middleware.SetupRequired(), handlers.ShowSettings)
         protectedUI.GET("/logout", handlers.Logout)
         
         // Setup routes
@@ -85,6 +86,12 @@ func main() {
             // Setup API routes
             protectedAPI.POST("/setup/display-name", handlers.ApiSetupDisplayName)
             protectedAPI.POST("/setup/recommendations", handlers.ApiSetupRecommendations)
+
+            // Settings API routes
+            protectedAPI.POST("/settings/display-name", handlers.ApiUpdateDisplayName)
+            protectedAPI.POST("/settings/language", handlers.ApiUpdateLanguage)
+            protectedAPI.POST("/settings/status-privacy", handlers.ApiUpdateStatusPrivacy)
+            protectedAPI.POST("/settings/password", handlers.ApiUpdatePassword)
         }
     }
 

@@ -15,6 +15,14 @@
     "description": "Edit button text",
     "other": "Edit"
   },
+  "common.save": {
+    "description": "Save button text",
+    "other": "Save"
+  },
+  "common.cancel": {
+    "description": "Cancel button text",
+    "other": "Cancel"
+  },
   "header.logout": {
     "description": "Logout link in header",
     "other": "Logout"
@@ -26,6 +34,10 @@
   "header.register": {
     "description": "Register link in header",
     "other": "Register"
+  },
+  "header.settings": {
+    "description": "Settings link in header",
+    "other": "Settings"
   },
   "auth.username_label": {
     "description": "Username input label",
@@ -42,6 +54,26 @@
   "auth.submit_register": {
     "description": "Register button text",
     "other": "Register"
+  },
+  "auth.error_validation": {
+    "description": "Validation error message",
+    "other": "Validation failed"
+  },
+  "auth.error_username_taken": {
+    "description": "Error when username already taken",
+    "other": "Username already taken"
+  },
+  "auth.error_account_creation": {
+    "description": "Error when account creation fails",
+    "other": "Failed to create account"
+  },
+  "auth.error_invalid_credentials": {
+    "description": "Error for invalid login credentials",
+    "other": "Invalid username or password"
+  },
+  "auth.error_login_failed": {
+    "description": "Error when login fails",
+    "other": "Login failed"
   },
   "page_title.login": {
     "description": "Login page browser title",
@@ -238,5 +270,93 @@
   "setup.recommendations.skip_button": {
     "description": "Go to Dashboard button",
     "other": "Go to Dashboard"
+  },
+  "page_title.settings": {
+    "description": "Settings page browser title",
+    "other": "Settings"
+  },
+  "settings.page_title": {
+    "description": "Settings page heading",
+    "other": "Settings"
+  },
+  "settings.display_name_title": {
+    "description": "Display name section title",
+    "other": "Display Name"
+  },
+  "settings.display_name_placeholder": {
+    "description": "Display name input placeholder",
+    "other": "Enter your display name"
+  },
+  "settings.language_title": {
+    "description": "Language section title",
+    "other": "Language"
+  },
+  "settings.status_privacy_title": {
+    "description": "Status privacy section title",
+    "other": "Status Privacy"
+  },
+  "settings.status_privacy_description": {
+    "description": "Status privacy section description",
+    "other": "Control who can see your online status."
+  },
+  "settings.privacy_everyone": {
+    "description": "Everyone privacy option",
+    "other": "Everyone"
+  },
+  "settings.privacy_friends": {
+    "description": "Friends privacy option",
+    "other": "Friends Only"
+  },
+  "settings.privacy_private": {
+    "description": "Private privacy option",
+    "other": "Private"
+  },
+  "settings.password_title": {
+    "description": "Password section title",
+    "other": "Password"
+  },
+  "settings.password_change_button": {
+    "description": "Change password button",
+    "other": "Change Password"
+  },
+  "settings.current_password_label": {
+    "description": "Current password label",
+    "other": "Current Password"
+  },
+  "settings.new_password_label": {
+    "description": "New password label",
+    "other": "New Password"
+  },
+  "settings.confirm_password_label": {
+    "description": "Confirm password label",
+    "other": "Confirm New Password"
+  },
+  "settings.success_display_name": {
+    "description": "Success message for display name update",
+    "other": "Display name updated successfully"
+  },
+  "settings.success_language": {
+    "description": "Success message for language update",
+    "other": "Language updated successfully"
+  },
+  "settings.success_status_privacy": {
+    "description": "Success message for status privacy update",
+    "other": "Status privacy updated successfully"
+  },
+  "settings.success_password": {
+    "description": "Success message for password update",
+    "other": "Password updated successfully"
+  },
+  "settings.error_password_mismatch": {
+    "description": "Error message when new passwords don't match",
+    "other": "New passwords do not match"
+  },
+  "settings.error_invalid_password": {
+    "description": "Error message for invalid current password",
+    "other": "Current password is incorrect"
+  },
+  "settings.error_generic": {
+    "description": "Generic error message",
+    "other": "An error occurred. Please try again."
   }
 }

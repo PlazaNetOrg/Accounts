@@ -24,8 +24,14 @@
 
     <div class="p-6 bg-plaza-dark rounded-xl">
       <h3 class="text-xl font-semibold mb-2">{{ T .Lang "dashboard.status_title" }}</h3>
-      <p class="text-status-online">
-        {{ T .Lang "dashboard.status_online" }}
+      <p class="{{ if eq .Status "online" }}text-status-online{{ else if eq .Status "playing" }}text-status-playing{{ else }}text-status-offline{{ end }}">
+        {{ if eq .Status "online" }}
+          {{ T .Lang "dashboard.status_online" }}
+        {{ else if eq .Status "playing" }}
+          {{ T .Lang "dashboard.status_playing" }} Minecraft
+        {{ else }}
+          {{ T .Lang "dashboard.status_offline" }}
+        {{ end }}
       </p>
     </div>
 

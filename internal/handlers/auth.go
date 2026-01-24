@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -11,6 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"plazanet-accounts/internal/db"
+	"plazanet-accounts/internal/i18n"
 	"plazanet-accounts/internal/models"
 )
 
@@ -19,6 +21,12 @@ const (
 	CookieMaxAge        = 86400
 	CookieName          = "auth_token"
 )
+
+func renderAuthError(c *gin.Context, statusCode int, message string) {
+	errorHTML := fmt.Sprintf(`<div class="p-4 bg-red-900 border border-red-700 rounded-lg text-red-100">%s</div>`, message)
+	c.Header("Content-Type", "text/html; charset=utf-8")
+	c.String(statusCode, errorHTML)
+}
 
 type RegisterInput struct {
 	Username string `form:"username" binding:"required,min=3,max=20"`
@@ -32,10 +40,13 @@ type LoginInput struct {
 
 func ApiRegister(c *gin.Context) {
 	var input RegisterInput
+	lang := c.GetString("language")
+	if lang == "" {
+		lang = "en"
+	}
+
 	if err := c.ShouldBind(&input); err != nil {
-		c.HTML(http.StatusBadRequest, "partials/form-error", gin.H{
-			"Message": "Validation failed: " + err.Error(),
-		})
+		renderAuthError(c, http.StatusBadRequest, i18n.Get(lang, "auth.error_validation"))
 		return
 	}
 
@@ -44,13 +55,13 @@ func ApiRegister(c *gin.Context) {
 
 	var existing models.User
 	if err := db.DB.Where("username = ?", username).First(&existing).Error; err == nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "Username already taken"})
+		renderAuthError(c, http.StatusConflict, i18n.Get(lang, "auth.error_username_taken"))
 		return
 	}
 
 	hashed, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		renderAuthError(c, http.StatusInternalServerError, i18n.Get(lang, "auth.error_account_creation"))
 		return
 	}
 
@@ -61,13 +72,13 @@ func ApiRegister(c *gin.Context) {
 	}
 
 	if err := db.DB.Create(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+		renderAuthError(c, http.StatusInternalServerError, i18n.Get(lang, "auth.error_account_creation"))
 		return
 	}
 
 	tokenString, err := generateToken(user.ID, user.Username)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		renderAuthError(c, http.StatusInternalServerError, i18n.Get(lang, "auth.error_account_creation"))
 		return
 	}
 
@@ -88,10 +99,13 @@ func ApiRegister(c *gin.Context) {
 
 func ApiLogin(c *gin.Context) {
 	var input LoginInput
+	lang := c.GetString("language")
+	if lang == "" {
+		lang = "en"
+	}
+
 	if err := c.ShouldBind(&input); err != nil {
-		c.HTML(http.StatusBadRequest, "partials/form-error", gin.H{
-			"Message": "Validation failed: " + err.Error(),
-		})
+		renderAuthError(c, http.StatusBadRequest, i18n.Get(lang, "auth.error_validation"))
 		return
 	}
 
@@ -100,18 +114,18 @@ func ApiLogin(c *gin.Context) {
 
 	var user models.User
 	if err := db.DB.Where("username = ?", username).First(&user).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
+		renderAuthError(c, http.StatusUnauthorized, i18n.Get(lang, "auth.error_invalid_credentials"))
 		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
+		renderAuthError(c, http.StatusUnauthorized, i18n.Get(lang, "auth.error_invalid_credentials"))
 		return
 	}
 
 	tokenString, err := generateToken(user.ID, user.Username)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		renderAuthError(c, http.StatusInternalServerError, i18n.Get(lang, "auth.error_login_failed"))
 		return
 	}
 

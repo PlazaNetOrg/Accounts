@@ -1,0 +1,207 @@
+{{ define "settings" }}
+<div class="bg-plaza-surface rounded-2xl p-8 shadow-lg">
+  <h2 class="text-3xl font-bold text-plaza-primary mb-8">
+    {{ T .Lang "settings.page_title" }}
+  </h2>
+
+  <!-- Message Container -->
+  <div id="settings-message" class="mb-6"></div>
+
+  <div class="space-y-8">
+    <!-- Display Name Section -->
+    <div class="border border-gray-700 rounded-xl p-6 bg-plaza-dark">
+      <h3 class="text-xl font-semibold text-plaza-primary mb-4">
+        {{ T .Lang "settings.display_name_title" }}
+      </h3>
+      <form hx-post="/api/settings/display-name" hx-target="#settings-message" hx-swap="innerHTML">
+        <div class="flex gap-4">
+          <input
+            type="text"
+            name="display_name"
+            value="{{ .CurrentDisplayName }}"
+            placeholder="{{ T .Lang "settings.display_name_placeholder" }}"
+            maxlength="50"
+            class="flex-1 bg-plaza-surface border border-gray-600 rounded-lg px-4 py-2 text-plaza-text placeholder-plaza-text-muted focus:outline-none focus:border-plaza-primary transition"
+            required
+          />
+          <button
+            type="submit"
+            class="px-6 py-2 bg-plaza-primary hover:bg-plaza-secondary text-white font-medium rounded-lg transition"
+          >
+            {{ T .Lang "common.save" }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Language Section -->
+    <div class="border border-gray-700 rounded-xl p-6 bg-plaza-dark">
+      <h3 class="text-xl font-semibold text-plaza-primary mb-4">
+        {{ T .Lang "settings.language_title" }}
+      </h3>
+      <form hx-post="/api/settings/language" hx-target="#settings-message" hx-swap="innerHTML">
+        <div class="flex gap-4">
+          <select
+            name="language"
+            class="flex-1 bg-plaza-surface border border-gray-600 rounded-lg px-4 py-2 text-plaza-text focus:outline-none focus:border-plaza-primary transition"
+          >
+            <option value="en" {{ if eq .CurrentLanguage "en" }}selected{{ end }}>English</option>
+            <option value="pl" {{ if eq .CurrentLanguage "pl" }}selected{{ end }}>Polski</option>
+          </select>
+          <button
+            type="submit"
+            class="px-6 py-2 bg-plaza-primary hover:bg-plaza-secondary text-white font-medium rounded-lg transition"
+          >
+            {{ T .Lang "common.save" }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Status Privacy Section -->
+    <div class="border border-gray-700 rounded-xl p-6 bg-plaza-dark">
+      <h3 class="text-xl font-semibold text-plaza-primary mb-4">
+        {{ T .Lang "settings.status_privacy_title" }}
+      </h3>
+      <p class="text-plaza-text-muted mb-4 text-sm">
+        {{ T .Lang "settings.status_privacy_description" }}
+      </p>
+      <form hx-post="/api/settings/status-privacy" hx-target="#settings-message" hx-swap="innerHTML">
+        <div class="flex gap-4">
+          <select
+            name="status_privacy"
+            class="flex-1 bg-plaza-surface border border-gray-600 rounded-lg px-4 py-2 text-plaza-text focus:outline-none focus:border-plaza-primary transition"
+          >
+            <option value="friends" {{ if eq .CurrentStatusPrivacy "friends" }}selected{{ end }}>
+              {{ T .Lang "settings.privacy_friends" }}
+            </option>
+            <option value="everyone" {{ if eq .CurrentStatusPrivacy "everyone" }}selected{{ end }}>
+              {{ T .Lang "settings.privacy_everyone" }}
+            </option>
+            <option value="private" {{ if eq .CurrentStatusPrivacy "private" }}selected{{ end }}>
+              {{ T .Lang "settings.privacy_private" }}
+            </option>
+          </select>
+          <button
+            type="submit"
+            class="px-6 py-2 bg-plaza-primary hover:bg-plaza-secondary text-white font-medium rounded-lg transition"
+          >
+            {{ T .Lang "common.save" }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Password Change Section -->
+    <div class="border border-gray-700 rounded-xl p-6 bg-plaza-dark">
+      <h3 class="text-xl font-semibold text-plaza-primary mb-4">
+        {{ T .Lang "settings.password_title" }}
+      </h3>
+      <button
+        onclick="document.getElementById('passwordModal').showModal()"
+        class="px-6 py-2 bg-plaza-secondary hover:bg-plaza-primary text-white font-medium rounded-lg transition"
+      >
+        {{ T .Lang "settings.password_change_button" }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Password Change Modal -->
+<dialog id="passwordModal" class="backdrop:bg-black backdrop:bg-opacity-50 rounded-xl">
+  <div class="bg-plaza-surface rounded-xl p-8 shadow-xl max-w-md w-full">
+    <h3 class="text-2xl font-bold text-plaza-primary mb-6">
+      {{ T .Lang "settings.password_change_button" }}
+    </h3>
+
+    <form hx-post="/api/settings/password" hx-target="#password-response" hx-swap="innerHTML">
+      <div id="password-response" class="mb-4"></div>
+
+      <div id="passwordForm" class="space-y-4">
+        <!-- Current Password -->
+        <div>
+          <label class="block text-plaza-text-muted text-sm mb-2">
+            {{ T .Lang "settings.current_password_label" }}
+          </label>
+          <input
+            type="password"
+            name="current_password"
+            class="w-full bg-plaza-dark border border-gray-600 rounded-lg px-4 py-2 text-plaza-text placeholder-plaza-text-muted focus:outline-none focus:border-plaza-primary transition"
+            required
+          />
+        </div>
+
+        <!-- New Password -->
+        <div>
+          <label class="block text-plaza-text-muted text-sm mb-2">
+            {{ T .Lang "settings.new_password_label" }}
+          </label>
+          <input
+            type="password"
+            name="new_password"
+            class="w-full bg-plaza-dark border border-gray-600 rounded-lg px-4 py-2 text-plaza-text placeholder-plaza-text-muted focus:outline-none focus:border-plaza-primary transition"
+            required
+            minlength="6"
+          />
+        </div>
+
+        <!-- Confirm New Password -->
+        <div>
+          <label class="block text-plaza-text-muted text-sm mb-2">
+            {{ T .Lang "settings.confirm_password_label" }}
+          </label>
+          <input
+            type="password"
+            name="confirm_password"
+            class="w-full bg-plaza-dark border border-gray-600 rounded-lg px-4 py-2 text-plaza-text placeholder-plaza-text-muted focus:outline-none focus:border-plaza-primary transition"
+            required
+            minlength="6"
+          />
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-4 mt-6">
+          <button
+            type="button"
+            onclick="document.getElementById('passwordModal').close()"
+            class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg transition"
+          >
+            {{ T .Lang "common.cancel" }}
+          </button>
+          <button
+            type="submit"
+            class="flex-1 px-4 py-2 bg-plaza-primary hover:bg-plaza-secondary text-white font-medium rounded-lg transition"
+          >
+            {{ T .Lang "common.save" }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+  document.body.addEventListener('htmx:afterSwap', function(evt) {
+    if (evt.detail.target.id === 'password-response') {
+      const isSuccess = evt.detail.xhr.responseText.includes('settings-success');
+      if (isSuccess) {
+        setTimeout(function() {
+          document.getElementById('passwordModal').close();
+        }, 1500);
+      }
+    }
+  });
+</script>
+
+<style>
+  dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  dialog {
+    border: none;
+    padding: 0;
+    max-width: 28rem;
+  }
+</style>
+{{ end }}
