@@ -1,4 +1,87 @@
 {{ define "dashboard" }}
+<script>
+  const i18n = {
+    'presence.status_online': '{{ T .Lang "presence.status_online" }}',
+    'presence.status_playing': '{{ T .Lang "presence.status_playing" }}',
+    'presence.status_offline': '{{ T .Lang "presence.status_offline" }}',
+    'presence.client_web': '{{ T .Lang "presence.client_web" }}',
+    'presence.client_gameplaza': '{{ T .Lang "presence.client_gameplaza" }}',
+    'presence.client_mobile': '{{ T .Lang "presence.client_mobile" }}',
+    'presence.client_unknown': '{{ T .Lang "presence.client_unknown" }}'
+  };
+
+  function sendWebHeartbeat() {
+    fetch('/api/presence/heartbeat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        client_type: 'web'
+      })
+    }).catch(err => console.error('Heartbeat error:', err));
+  }
+
+  function updatePresenceDisplay() {
+    fetch('/api/presence/me', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(r => r.json())
+    .then(data => {
+      console.log('[Dashboard] Presence update:', data);
+      
+      const statusContainer = document.querySelector('#presence-status-container');
+      const statusText = document.querySelector('#presence-status-color');
+      const statusDot = document.querySelector('#presence-status-dot');
+      
+      if (statusContainer && statusText && statusDot) {
+        statusContainer.classList.remove('text-status-offline', 'text-status-online', 'text-status-playing');
+        statusText.classList.remove('text-status-offline', 'text-status-online', 'text-status-playing');
+        statusDot.classList.remove('bg-gray-500', 'bg-blue-500', 'bg-green-500');
+        
+        if (data.current_status === 'online') {
+          statusContainer.classList.add('text-status-online');
+          statusText.classList.add('text-status-online');
+          statusDot.classList.add('bg-blue-500');
+          statusText.textContent = i18n['presence.status_online'];
+        } else if (data.current_status === 'playing') {
+          statusContainer.classList.add('text-status-playing');
+          statusText.classList.add('text-status-playing');
+          statusDot.classList.add('bg-green-500');
+          if (data.current_game) {
+            statusText.textContent = i18n['presence.status_playing'] + ' ' + data.current_game;
+          } else {
+            statusText.textContent = i18n['presence.status_playing'];
+          }
+        } else {
+          statusContainer.classList.add('text-status-offline');
+          statusText.classList.add('text-status-offline');
+          statusDot.classList.add('bg-gray-500');
+          statusText.textContent = i18n['presence.status_offline'];
+        }
+      }
+      
+      const clientTypeText = document.querySelector('#presence-client-type');
+      if (clientTypeText) {
+        const clientTypeKey = 'presence.client_' + data.client_type;
+        clientTypeText.textContent = i18n[clientTypeKey] || i18n['presence.client_unknown'];
+      }
+    })
+    .catch(err => console.error('[Dashboard] Failed to update presence display:', err));
+  }
+
+  sendWebHeartbeat();
+  setInterval(sendWebHeartbeat, 30000);
+  
+  updatePresenceDisplay();
+  setInterval(updatePresenceDisplay, 15000);
+  
+  window.addEventListener('beforeunload', sendWebHeartbeat);
+</script>
+
 <div class="bg-plaza-surface rounded-2xl p-8 shadow-lg">
   <h2 class="text-3xl font-bold text-plaza-primary mb-6">
     {{ T .Lang "dashboard.welcome" }} <span class="text-plaza-secondary">{{ .DisplayName }}</span>!
@@ -6,6 +89,7 @@
 
   <div class="space-y-6">
     <div class="bg-plaza-surface rounded-2xl p-8 flex items-center justify-center min-h-[200px]">
+      <!-- Pal Preview -->
       <div id="pal-preview" class="relative w-32 h-32 bg-gray-700 rounded-full
               flex items-center justify-center text-3xl">
         👤
@@ -23,16 +107,41 @@
     </p>
 
     <div class="p-6 bg-plaza-dark rounded-xl">
-      <h3 class="text-xl font-semibold mb-2">{{ T .Lang "dashboard.status_title" }}</h3>
-      <p class="{{ if eq .Status "online" }}text-status-online{{ else if eq .Status "playing" }}text-status-playing{{ else }}text-status-offline{{ end }}">
-        {{ if eq .Status "online" }}
-          {{ T .Lang "dashboard.status_online" }}
-        {{ else if eq .Status "playing" }}
-          {{ T .Lang "dashboard.status_playing" }} Minecraft
-        {{ else }}
-          {{ T .Lang "dashboard.status_offline" }}
-        {{ end }}
-      </p>
+      <!-- Status -->
+      <h3 class="text-xl font-semibold mb-4">{{ T .Lang "dashboard.status_title" }}</h3>
+      <div class="space-y-3">
+        <div id="presence-status-container" class="flex items-center gap-3 {{ if eq .CurrentStatus "online" }}text-status-online{{ else if eq .CurrentStatus "playing" }}text-status-playing{{ else }}text-status-offline{{ end }}">
+          <div id="presence-status-dot" class="w-3 h-3 rounded-full {{ if eq .CurrentStatus "online" }}bg-blue-500{{ else if eq .CurrentStatus "playing" }}bg-green-500{{ else }}bg-gray-500{{ end }}"></div>
+          <div>
+            <p class="text-sm text-plaza-text-muted">{{ T .Lang "presence.status_label" }}</p>
+            <p id="presence-status-color" class="font-semibold {{ if eq .CurrentStatus "online" }}text-status-online{{ else if eq .CurrentStatus "playing" }}text-status-playing{{ else }}text-status-offline{{ end }}">
+              {{ if eq .CurrentStatus "online" }}
+                {{ T .Lang "presence.status_online" }}
+              {{ else if eq .CurrentStatus "playing" }}
+                {{ T .Lang "presence.status_playing" }} {{ .CurrentGame }}
+              {{ else }}
+                {{ T .Lang "presence.status_offline" }}
+              {{ end }}
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 pl-6 border-l-2 border-gray-600">
+          <div>
+            <p class="text-sm text-plaza-text-muted">{{ T .Lang "presence.client_type_label" }}</p>
+            <p id="presence-client-type" class="font-semibold text-gray-300">
+              {{ if eq .ClientType "gameplaza" }}
+                {{ T .Lang "presence.client_gameplaza" }}
+              {{ else if eq .ClientType "mobile" }}
+                {{ T .Lang "presence.client_mobile" }}
+              {{ else if eq .ClientType "web" }}
+                {{ T .Lang "presence.client_web" }}
+              {{ else }}
+                {{ T .Lang "presence.client_unknown" }}
+              {{ end }}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="flex flex-col md:flex-row gap-6">
@@ -44,21 +153,21 @@
             <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">
               👤
             </div>
-            <span>Friend 1 ● {{ T .Lang "dashboard.status_offline" }}</span>
+            <span>Friend 1 ● {{ T .Lang "presence.status_offline" }}</span>
           </li>
 
           <li class="flex items-center gap-3 text-status-online">
             <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">
               👤
             </div>
-            <span>Friend 2 ● {{ T .Lang "dashboard.status_online" }}</span>
+            <span>Friend 2 ● {{ T .Lang "presence.status_online" }}</span>
           </li>
 
           <li class="flex items-center gap-3 text-status-playing">
             <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center text-xs">
               👤
             </div>
-            <span>Friend 3 ● {{ T .Lang "dashboard.status_playing" }} Game</span>
+            <span>Friend 3 ● {{ T .Lang "presence.status_playing" }} Game</span>
           </li>
         </ul>
         <a href="/friends" class="text-plaza-secondary hover:text-plaza-primary">

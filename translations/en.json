@@ -127,18 +127,6 @@
     "description": "Your Status section title",
     "other": "Your Status"
   },
-  "dashboard.status_offline": {
-    "description": "Friend offline status",
-    "other": "Offline"
-  },
-  "dashboard.status_online": {
-    "description": "Friend online status",
-    "other": "Online"
-  },
-  "dashboard.status_playing": {
-    "description": "Friend playing status",
-    "other": "Playing"
-  },
   "dashboard.friends_title": {
     "description": "Friends section title",
     "other": "Friends"
@@ -358,5 +346,53 @@
   "settings.error_generic": {
     "description": "Generic error message",
     "other": "An error occurred. Please try again."
+  },
+  "presence.status_offline": {
+    "description": "User is offline",
+    "other": "Offline"
+  },
+  "presence.status_online": {
+    "description": "User is online",
+    "other": "Online"
+  },
+  "presence.status_playing": {
+    "description": "User is playing a game",
+    "other": "Playing"
+  },
+  "presence.last_seen": {
+    "description": "Label for last seen timestamp",
+    "other": "Last seen"
+  },
+  "presence.playing_game": {
+    "description": "Format for displaying what game user is playing",
+    "other": "Playing %s"
+  },
+  "presence.client_web": {
+    "description": "User is using web client",
+    "other": "Web"
+  },
+  "presence.client_gameplaza": {
+    "description": "User is using GamePlaza client",
+    "other": "GamePlaza"
+  },
+  "presence.client_mobile": {
+    "description": "User is using mobile client",
+    "other": "Mobile"
+  },
+  "presence.client_unknown": {
+    "description": "Unknown client type",
+    "other": "Unknown"
+  },
+  "presence.status_label": {
+    "description": "Label for current status",
+    "other": "Current Status"
+  },
+  "presence.game_label": {
+    "description": "Label for game currently being played",
+    "other": "Current Game"
+  },
+  "presence.client_type_label": {
+    "description": "Label for which client is being used",
+    "other": "Using"
   }
 }

@@ -34,7 +34,9 @@ func ShowDashboard(c *gin.Context) {
 	renderPage(c, "dashboard", "page_title.dashboard", gin.H{
 		"IsAuthenticated": true,
 		"DisplayName":     user.DisplayName,
-		"Status":          user.Status,
+		"CurrentStatus":   user.CurrentStatus,
+		"CurrentGame":     user.CurrentGame,
+		"ClientType":      user.ClientType,
 		"PlazaNetURL":     config.Cfg.PlazaNetURL,
 	})
 }

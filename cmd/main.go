@@ -92,6 +92,12 @@ func main() {
             protectedAPI.POST("/settings/language", handlers.ApiUpdateLanguage)
             protectedAPI.POST("/settings/status-privacy", handlers.ApiUpdateStatusPrivacy)
             protectedAPI.POST("/settings/password", handlers.ApiUpdatePassword)
+            
+            // Presence API routes
+            protectedAPI.POST("/presence/update", handlers.ApiUpdatePresence)
+            protectedAPI.POST("/presence/heartbeat", handlers.ApiPresenceHeartbeat)
+            protectedAPI.GET("/presence/me", handlers.ApiGetMyPresence)
+            protectedAPI.GET("/presence/:username", handlers.ApiGetUserPresence)
         }
     }
 

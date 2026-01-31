@@ -10,11 +10,14 @@ type User struct {
 	DisplayName   string    `gorm:"size:50"`
 	Password      string    `gorm:"not null"`
 	CreatedAt     time.Time
-	UpdatedAt     time.Time
-	Status        string    `gorm:"default:'offline'"`
 	SetupStatus   string    `gorm:"default:'not_started'"`
 	Language      string    `gorm:"default:'en'"`
 	StatusPrivacy string    `gorm:"default:'friends'"`
+	
+	CurrentStatus string     `gorm:"default:'offline'"`
+	CurrentGame   string     `gorm:"default:''"`
+	ClientType    string     `gorm:"default:'web'"`
+	LastSeenAt    *time.Time `gorm:"default:null"`
 
 	Pal Pal `gorm:"embedded;embeddedPrefix:pal_"`
 }

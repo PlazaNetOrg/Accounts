@@ -104,8 +104,14 @@ func ApiLogin(c *gin.Context) {
 		lang = "en"
 	}
 
+	wantsJSON := strings.Contains(c.GetHeader("Accept"), "application/json") || c.GetHeader("Accept") == "application/json"
+
 	if err := c.ShouldBind(&input); err != nil {
-		renderAuthError(c, http.StatusBadRequest, i18n.Get(lang, "auth.error_validation"))
+		if wantsJSON {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "details": err.Error()})
+		} else {
+			renderAuthError(c, http.StatusBadRequest, i18n.Get(lang, "auth.error_validation"))
+		}
 		return
 	}
 
@@ -114,22 +120,42 @@ func ApiLogin(c *gin.Context) {
 
 	var user models.User
 	if err := db.DB.Where("username = ?", username).First(&user).Error; err != nil {
-		renderAuthError(c, http.StatusUnauthorized, i18n.Get(lang, "auth.error_invalid_credentials"))
+		if wantsJSON {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		} else {
+			renderAuthError(c, http.StatusUnauthorized, i18n.Get(lang, "auth.error_invalid_credentials"))
+		}
 		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
-		renderAuthError(c, http.StatusUnauthorized, i18n.Get(lang, "auth.error_invalid_credentials"))
+		if wantsJSON {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		} else {
+			renderAuthError(c, http.StatusUnauthorized, i18n.Get(lang, "auth.error_invalid_credentials"))
+		}
 		return
 	}
 
 	tokenString, err := generateToken(user.ID, user.Username)
 	if err != nil {
-		renderAuthError(c, http.StatusInternalServerError, i18n.Get(lang, "auth.error_login_failed"))
+		if wantsJSON {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		} else {
+			renderAuthError(c, http.StatusInternalServerError, i18n.Get(lang, "auth.error_login_failed"))
+		}
 		return
 	}
 
 	setAuthCookie(c, tokenString)
+
+	if wantsJSON {
+		c.JSON(http.StatusOK, gin.H{
+			"token":    tokenString,
+			"username": user.Username,
+		})
+		return
+	}
 
 	var setupRedirect string
 	switch user.SetupStatus {
@@ -143,16 +169,8 @@ func ApiLogin(c *gin.Context) {
 		setupRedirect = "/setup/display-name"
 	}
 
-	if c.GetHeader("HX-Request") != "" || strings.Contains(c.GetHeader("Accept"), "text/html") {
-		c.Header("HX-Redirect", setupRedirect)
-		c.Status(http.StatusOK)
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"token":    tokenString,
-		"username": user.Username,
-	})
+	c.Header("HX-Redirect", setupRedirect)
+	c.Status(http.StatusOK)
 }
 
 func Logout(c *gin.Context) {
