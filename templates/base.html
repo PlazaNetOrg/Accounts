@@ -61,6 +61,8 @@
     {{ if eq .Page "settings" }}{{ template "settings" . }}{{ end }}
     {{ if eq .Page "setup-display-name" }}{{ template "setup-display-name" . }}{{ end }}
     {{ if eq .Page "setup-recommendations" }}{{ template "setup-recommendations" . }}{{ end }}
+    {{ if eq .Page "admin-dashboard" }}{{ template "admin-dashboard" . }}{{ end }}
+    {{ if eq .Page "admin-users" }}{{ template "admin-users" . }}{{ end }}
   </main>
 
   <footer class="text-center py-6 text-plaza-text-muted text-sm border-t border-gray-700 mt-auto">

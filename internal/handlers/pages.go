@@ -11,12 +11,22 @@ import (
 )
 
 func ShowLoginPage(c *gin.Context) {
+	// Store return_to URL parameter as cookie for auth handler
+	if returnTo := c.Query("return_to"); returnTo != "" {
+		c.SetCookie("return_to", returnTo, 3600, "/", "", false, true)
+	}
+	
 	renderPage(c, "login", "page_title.login", gin.H{
 		"IsAuthenticated": false,
 	})
 }
 
 func ShowRegisterPage(c *gin.Context) {
+	// Store return_to URL parameter as cookie for auth handler
+	if returnTo := c.Query("return_to"); returnTo != "" {
+		c.SetCookie("return_to", returnTo, 3600, "/", "", false, true)
+	}
+	
 	renderPage(c, "register", "page_title.register", gin.H{
 		"IsAuthenticated": false,
 	})

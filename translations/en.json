@@ -39,6 +39,10 @@
     "description": "Settings link in header",
     "other": "Settings"
   },
+  "auth.email_label": {
+    "description": "Email input label",
+    "other": "Email"
+  },
   "auth.username_label": {
     "description": "Username input label",
     "other": "Username"
@@ -110,6 +114,14 @@
   "page_title.dashboard": {
     "description": "Dashboard page browser title",
     "other": "Dashboard"
+  },
+  "page_title.admin": {
+    "description": "Admin dashboard page browser title",
+    "other": "Admin Dashboard"
+  },
+  "page_title.admin_users": {
+    "description": "Admin users page browser title",
+    "other": "User Management"
   },
   "dashboard.welcome": {
     "description": "Welcome message on dashboard",

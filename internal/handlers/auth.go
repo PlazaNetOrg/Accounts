@@ -29,6 +29,7 @@ func renderAuthError(c *gin.Context, statusCode int, message string) {
 }
 
 type RegisterInput struct {
+	Email    string `form:"email" binding:"required,email"`
 	Username string `form:"username" binding:"required,min=3,max=20"`
 	Password string `form:"password" binding:"required,min=6"`
 }
@@ -52,9 +53,10 @@ func ApiRegister(c *gin.Context) {
 
 	// Convert username to lowercase
 	username := strings.ToLower(input.Username)
+	email := strings.ToLower(input.Email)
 
 	var existing models.User
-	if err := db.DB.Where("username = ?", username).First(&existing).Error; err == nil {
+	if err := db.DB.Where("username = ? OR email = ?", username, email).First(&existing).Error; err == nil {
 		renderAuthError(c, http.StatusConflict, i18n.Get(lang, "auth.error_username_taken"))
 		return
 	}
@@ -66,6 +68,7 @@ func ApiRegister(c *gin.Context) {
 	}
 
 	user := models.User{
+		Email:       email,
 		Username:    username,
 		Password:    string(hashed),
 		SetupStatus: "not_started",
@@ -85,6 +88,22 @@ func ApiRegister(c *gin.Context) {
 	setAuthCookie(c, tokenString)
 
 	if c.GetHeader("HX-Request") != "" || strings.Contains(c.GetHeader("Accept"), "text/html") {
+		// Check if there's a return_to cookie (from PlazaNet or other services)
+		returnTo, err := c.Cookie("return_to")
+		if err == nil && returnTo != "" {
+			c.SetCookie("return_to", "", -1, "/", "", false, true)
+			// Append the token as a URL parameter so PlazaNet can set its own cookie
+			redirectURL := returnTo
+			if strings.Contains(redirectURL, "?") {
+				redirectURL += "&token=" + tokenString
+			} else {
+				redirectURL += "?token=" + tokenString
+			}
+			c.Header("HX-Redirect", redirectURL)
+			c.Status(http.StatusOK)
+			return
+		}
+
 		c.Header("HX-Redirect", "/setup/display-name")
 		c.Status(http.StatusOK)
 		return
@@ -157,6 +176,21 @@ func ApiLogin(c *gin.Context) {
 		return
 	}
 
+	// Check if there's a return_to cookie (from PlazaNet or other services)
+	returnTo, err := c.Cookie("return_to")
+	if err == nil && returnTo != "" {
+		c.SetCookie("return_to", "", -1, "/", "", false, true)
+		redirectURL := returnTo
+		if strings.Contains(redirectURL, "?") {
+			redirectURL += "&token=" + tokenString
+		} else {
+			redirectURL += "?token=" + tokenString
+		}
+		c.Header("HX-Redirect", redirectURL)
+		c.Status(http.StatusOK)
+		return
+	}
+
 	var setupRedirect string
 	switch user.SetupStatus {
 	case "not_started":
@@ -182,21 +216,30 @@ func Me(c *gin.Context) {
 	userID := c.GetUint("user_id")
 	username := c.GetString("username")
 
+	var user models.User
+	if err := db.DB.First(&user, userID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"id":       userID,
-		"username": username,
+		"id":           userID,
+		"username":     username,
+		"display_name": user.DisplayName,
 	})
 }
 
 func setAuthCookie(c *gin.Context, token string) {
+	domain := ""
+	
 	c.SetCookie(
 		CookieName,
 		token,
 		CookieMaxAge,
 		"/",
-		"",
+		domain,
 		false,
-		true,
+		false,
 	)
 }
 

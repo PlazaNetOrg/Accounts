@@ -6,9 +6,11 @@ import (
 
 type User struct {
 	ID            uint      `gorm:"primaryKey"`
+	Email         string    `gorm:"unique;not null"`
 	Username      string    `gorm:"unique;not null;size:20"`
 	DisplayName   string    `gorm:"size:50"`
 	Password      string    `gorm:"not null"`
+	IsAdmin       bool      `gorm:"default:false"`
 	CreatedAt     time.Time
 	SetupStatus   string    `gorm:"default:'not_started'"`
 	Language      string    `gorm:"default:'en'"`

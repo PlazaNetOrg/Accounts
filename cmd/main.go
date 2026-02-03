@@ -66,6 +66,10 @@ func main() {
         // Setup routes
         protectedUI.GET("/setup/display-name", handlers.ShowSetupDisplayName)
         protectedUI.GET("/setup/recommendations", handlers.ShowSetupRecommendations)
+
+        // Admin routes
+        protectedUI.GET("/admin", handlers.ShowAdminDashboard)
+        protectedUI.GET("/admin/users", handlers.ShowAdminUsers)
     }
 	
 	// ====================
@@ -98,6 +102,11 @@ func main() {
             protectedAPI.POST("/presence/heartbeat", handlers.ApiPresenceHeartbeat)
             protectedAPI.GET("/presence/me", handlers.ApiGetMyPresence)
             protectedAPI.GET("/presence/:username", handlers.ApiGetUserPresence)
+
+            // Admin API routes
+            protectedAPI.GET("/admin/users", handlers.ApiGetAllUsers)
+            protectedAPI.DELETE("/admin/users/:id", handlers.ApiDeleteUser)
+            protectedAPI.PUT("/admin/users/:id", handlers.ApiUpdateUser)
         }
     }
 

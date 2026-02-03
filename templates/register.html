@@ -6,6 +6,12 @@
 
   <form hx-post="/api/register" hx-target="#auth-message" hx-swap="innerHTML" hx-include="this" class="space-y-5">
     <div>
+      <label class="block text-sm mb-1">{{ T .Lang "auth.email_label" }}</label>
+      <input type="email" name="email" required
+        class="w-full px-4 py-3 bg-plaza-surface border border-gray-600 rounded-xl focus:outline-none focus:border-plaza-primary">
+    </div>
+
+    <div>
       <label class="block text-sm mb-1">{{ T .Lang "auth.username_label" }}</label>
       <input type="text" name="username" required minlength="3" maxlength="20"
         class="w-full px-4 py-3 bg-plaza-surface border border-gray-600 rounded-xl focus:outline-none focus:border-plaza-primary">

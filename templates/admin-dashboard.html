@@ -1,0 +1,17 @@
+{{define "admin-dashboard"}}
+<div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-plaza-surface rounded-lg shadow p-6">
+            <h2 class="text-gray-400 text-sm font-semibold mb-2">Total Users</h2>
+            <p class="text-4xl font-bold text-plaza-primary">{{.UserCount}}</p>
+        </div>
+        
+        <div class="bg-plaza-surface rounded-lg shadow p-6">
+            <h2 class="text-gray-400 text-sm font-semibold mb-2">Quick Actions</h2>
+            <a href="/admin/users" class="text-plaza-secondary hover:underline block">Manage Users</a>
+        </div>
+    </div>
+</div>
+{{end}}
