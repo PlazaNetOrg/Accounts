@@ -169,7 +169,7 @@
   },
   "pal_editor.preview_placeholder": {
     "description": "3D preview placeholder text",
-    "other": "Podgląd 3D w Three.js już wkrótce™ – na razie to tylko placeholder."
+    "other": "Podgląd 3D już wkrótce™ – na razie to tylko placeholder."
   },
   "page_title.setup_display_name": {
     "description": "Setup display name page browser title",

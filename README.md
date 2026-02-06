@@ -14,7 +14,7 @@ A Go Gin Server providing accounts for [PlazaNet](https://github.com/PlazaNetOrg
 
 - **In progress / planned**:
   - Pals
-    - Previously 2D avatars that worked in the Python version. Currently being reimagined to 3D. (Three.js)
+    - Previously 2D avatars that worked in the Python version. Currently being reimagined to 3D.
   - User status (online/offline/playing)
   - Friends system (add/remove/list)
   - Account editing and deleting.

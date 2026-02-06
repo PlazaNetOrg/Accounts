@@ -16,10 +16,11 @@ type User struct {
 	Language      string    `gorm:"default:'en'"`
 	StatusPrivacy string    `gorm:"default:'friends'"`
 	
-	CurrentStatus string     `gorm:"default:'offline'"`
-	CurrentGame   string     `gorm:"default:''"`
-	ClientType    string     `gorm:"default:'web'"`
-	LastSeenAt    *time.Time `gorm:"default:null"`
+	CurrentStatus           string     `gorm:"default:'offline'"`
+	CurrentGame             string     `gorm:"default:''"`
+	ClientType              string     `gorm:"default:'web'"`
+	LastSeenAt              *time.Time `gorm:"default:null"`
+	LastClientUpdateAt      *time.Time `gorm:"default:null"`
 
 	Pal Pal `gorm:"embedded;embeddedPrefix:pal_"`
 }

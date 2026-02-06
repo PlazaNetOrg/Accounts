@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -17,6 +18,7 @@ type UpdatePresenceInput struct {
 }
 
 type PresenceHeartbeatInput struct {
+	Status     string `json:"status" binding:"omitempty,oneof=online playing"`
 	Game       string `json:"game"`
 	ClientType string `json:"client_type" binding:"required,oneof=web gameplaza mobile"`
 }
@@ -31,12 +33,15 @@ type UserPresenceResponse struct {
 	LastSeenAt    *time.Time `json:"last_seen_at,omitempty"`
 }
 
+const clientStalenessThreshold = 40 * time.Second
+const offlineThreshold = 60 * time.Second
+
 func clientTypePriority(clientType, status string) int {
 	if clientType == "gameplaza" {
 		if status == "playing" {
 			return 5
 		}
-		return 1
+		return 2
 	}
 
 	priorities := map[string]int{"mobile": 4, "web": 3, "unknown": 0}
@@ -46,19 +51,51 @@ func clientTypePriority(clientType, status string) int {
 	return 0
 }
 
-func shouldUpdateClientType(incomingType, incomingStatus, currentType, currentStatus string) bool {
+func shouldUpdateClientType(incomingType, incomingStatus, currentType, currentStatus string, lastClientUpdateAt *time.Time) bool {
 	if currentType == "" {
 		return true
 	}
-	return clientTypePriority(incomingType, incomingStatus) >= clientTypePriority(currentType, currentStatus)
+	
+	// Check if current client is stale (hasn't sent heartbeat in 40+ seconds)
+	// If lastClientUpdateAt is nil, the current state is stale (allow takeover)
+	if lastClientUpdateAt != nil {
+		timeSince := time.Since(*lastClientUpdateAt)
+		log.Printf("[STALENESS] Current client %s/%s - Time since last update: %.1fs (threshold: %.1fs)", 
+			currentType, currentStatus, timeSince.Seconds(), clientStalenessThreshold.Seconds())
+		if timeSince > clientStalenessThreshold {
+			log.Printf("[STALENESS] Current client stale - allowing %s/%s to take over", incomingType, incomingStatus)
+			return true
+		}
+	} else {
+		log.Printf("[STALENESS] No last update timestamp for %s/%s - allowing %s/%s to take over", 
+			currentType, currentStatus, incomingType, incomingStatus)
+		return true
+	}
+	
+	incomingPriority := clientTypePriority(incomingType, incomingStatus)
+	currentPriority := clientTypePriority(currentType, currentStatus)
+	
+	// Allow same client to refresh, or higher priority to take over
+	result := incomingPriority >= currentPriority
+	log.Printf("[PRIORITY] %s/%s (p%d) vs %s/%s (p%d) -> %v", 
+		incomingType, incomingStatus, incomingPriority,
+		currentType, currentStatus, currentPriority, result)
+	
+	return result
 }
 
-func buildPresenceUpdates(status, game, clientType string) map[string]interface{} {
+func buildPresenceUpdates(status, game, clientType string, wasActuallyUpdated bool) map[string]interface{} {
+	now := time.Now()
 	updates := map[string]interface{}{
 		"current_status": status,
 		"client_type":    clientType,
-		"last_seen_at":   time.Now(),
+		"last_seen_at":   now,
 	}
+	
+	if wasActuallyUpdated {
+		updates["last_client_update_at"] = now
+	}
+	
 	if status == "playing" && game != "" {
 		updates["current_game"] = game
 	} else {
@@ -67,21 +104,37 @@ func buildPresenceUpdates(status, game, clientType string) map[string]interface{
 	return updates
 }
 
-func resolveHeartbeatState(input PresenceHeartbeatInput, user models.User) (string, string, string) {
+func resolveHeartbeatState(input PresenceHeartbeatInput, user models.User) (string, string, string, bool) {
+	// Check if this client should be allowed to update at all
+	incomingStatus := "online"
+	if input.Status != "" {
+		incomingStatus = input.Status
+	} else if input.Game != "" {
+		incomingStatus = "playing"
+	}
+	
+	if !shouldUpdateClientType(input.ClientType, incomingStatus, user.ClientType, user.CurrentStatus, user.LastClientUpdateAt) {
+		return user.CurrentStatus, user.CurrentGame, user.ClientType, false
+	}
+	
 	status := "online"
 	game := ""
 
-	if input.Game != "" {
+	if input.Status != "" {
+		status = input.Status
+		if status == "playing" {
+			if input.Game != "" {
+				game = input.Game
+			} else if user.CurrentGame != "" {
+				game = user.CurrentGame
+			}
+		}
+	} else if input.Game != "" {
 		status = "playing"
 		game = input.Game
 	}
 
-	clientType := input.ClientType
-	if !shouldUpdateClientType(input.ClientType, status, user.ClientType, user.CurrentStatus) {
-		clientType = user.ClientType
-	}
-
-	return status, game, clientType
+	return status, game, input.ClientType, true
 }
 
 func ApiUpdatePresence(c *gin.Context) {
@@ -99,14 +152,16 @@ func ApiUpdatePresence(c *gin.Context) {
 	}
 
 	var user models.User
-	db.DB.Select("client_type, current_status").First(&user, userID)
+	db.DB.Select("client_type, current_status, last_client_update_at").First(&user, userID)
 
 	clientType := input.ClientType
-	if !shouldUpdateClientType(input.ClientType, input.Status, user.ClientType, user.CurrentStatus) {
+	wasActuallyUpdated := true
+	if !shouldUpdateClientType(input.ClientType, input.Status, user.ClientType, user.CurrentStatus, user.LastClientUpdateAt) {
 		clientType = user.ClientType
+		wasActuallyUpdated = false
 	}
 
-	updates := buildPresenceUpdates(input.Status, input.Game, clientType)
+	updates := buildPresenceUpdates(input.Status, input.Game, clientType, wasActuallyUpdated)
 	if err := db.DB.Model(&models.User{}).Where("id = ?", userID).Updates(updates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update presence"})
 		return
@@ -129,11 +184,12 @@ func ApiPresenceHeartbeat(c *gin.Context) {
 		return
 	}
 
-	var user models.User
-	db.DB.Select("client_type, current_game, current_status").First(&user, userID)
 
-	status, game, clientType := resolveHeartbeatState(input, user)
-	updates := buildPresenceUpdates(status, game, clientType)
+	var user models.User
+	db.DB.Select("client_type, current_game, current_status, last_client_update_at").First(&user, userID)
+
+	status, game, clientType, wasActuallyUpdated := resolveHeartbeatState(input, user)
+	updates := buildPresenceUpdates(status, game, clientType, wasActuallyUpdated)
 
 	if err := db.DB.Model(&models.User{}).Where("id = ?", userID).Updates(updates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update heartbeat"})
@@ -180,19 +236,27 @@ func ApiGetMyPresence(c *gin.Context) {
 }
 
 func buildPresenceResponse(user models.User) UserPresenceResponse {
+	currentStatus := user.CurrentStatus
+	clientType := user.ClientType
+	
+	// Mark user as offline if they haven't sent any heartbeat in 60+ seconds
+	if user.LastSeenAt != nil && time.Since(*user.LastSeenAt) > offlineThreshold {
+		currentStatus = "offline"
+	}
+	
 	response := UserPresenceResponse{
 		UserID:        user.ID,
 		Username:      user.Username,
 		DisplayName:   user.DisplayName,
-		CurrentStatus: user.CurrentStatus,
-		ClientType:    user.ClientType,
+		CurrentStatus: currentStatus,
+		ClientType:    clientType,
 	}
 
-	if user.CurrentStatus == "playing" {
+	if currentStatus == "playing" {
 		response.CurrentGame = user.CurrentGame
 	}
 
-	if user.CurrentStatus == "offline" && user.LastSeenAt != nil {
+	if currentStatus == "offline" && user.LastSeenAt != nil {
 		response.LastSeenAt = user.LastSeenAt
 	}
 

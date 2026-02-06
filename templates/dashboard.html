@@ -17,7 +17,8 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        client_type: 'web'
+        client_type: 'web',
+        status: 'online'
       })
     }).catch(err => console.error('Heartbeat error:', err));
   }
@@ -74,7 +75,7 @@
   }
 
   sendWebHeartbeat();
-  setInterval(sendWebHeartbeat, 30000);
+  setInterval(sendWebHeartbeat, 20000);
   
   updatePresenceDisplay();
   setInterval(updatePresenceDisplay, 15000);
